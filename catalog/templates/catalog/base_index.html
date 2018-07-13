@@ -1,0 +1,51 @@
+{% extends "catalog/base.html" %}
+
+{% block more_style %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <section class="center-align">
+        <h2 class="">Welcome {% if user %}{{user.first_name}}{% endif %} to your Local Library</h2>
+    </section>
+    <div class="divider">
+
+    </div>
+    <div class="row">
+        <!-- Navigation Panel -->
+        <div class="col s4 ">
+            {% block sidebar %}
+                <div class="collection ">
+                    <a href="{% url 'catalog:index'%}" class="collection-item black-text ">Home</a>
+                    {% if user.is_staff %}
+                    <a class='collection-item black-text' href="{% url 'admin:index' %}">Admin</a>
+                    {% endif %}
+                    <a href="{% url 'catalog:authors' %}" class="collection-item black-text"><span class=" badge">{{num_authors}}</span>All Authors</a>
+                    <a href="{% url 'catalog:books' %}" class="collection-item black-text"><span class=" badge">{{num_books}}</span>All Books</a>
+                    <a href="{% url 'catalog:languages' %}" class="collection-item black-text"><span class=" badge">{{num_languages}}</span>All Languages</a>
+                    <a href="{% url 'catalog:genre-list' %}" class="collection-item black-text"><span class=" badge">{{num_genres}}</span>All Genres</a>
+                </div>
+            {% endblock %}
+        </div>
+        <div class="col s8">
+            <!-- page content -->
+            {% block content %}{% endblock %}
+            <!-- Pagination Section -->
+            {% block pagination %}
+                {% if is_paginated %}
+                    <ul class='pagination center-align'>
+                        <li class='waves effect {% if not page_obj.has_previous %} disabled{% endif %}'><a href="{% if page_obj.has_previous %}{{request.path}}?page={{page_obj.previous_page_number}}{% endif %} "><i class='material-icons'>chevron_left</i></a></li>
+                        <li><span class="badge">Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}</span> </li>
+                        <li class="waves effect {% if not page_obj.has_next %}disabled{% endif %}"><a href=" {% if page_obj.has_next %}{{request.path}}?page={{page_obj.next_page_number}}{% endif %} "><i class="material-icons">chevron_right</i> </a> </li>
+                    </ul>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<footer class='gd-morebluer '>
+    <span>© 2018 C. Ryan Manzer </span>
+</footer>
+{% endblock %}

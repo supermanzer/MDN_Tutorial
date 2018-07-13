@@ -1,0 +1,37 @@
+{% extends "catalog/base_index.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12 ">
+            <h3 class="grey lighten-3"><strong>Title:</strong> {{book.title}}</h3>
+            <div class="divider"></div>
+            <h5><strong>Author:</strong> {{book.display_author}}</h5>
+            <p><strong>Genre:</strong> {{book.display_genre}} </p>
+            <p><strong>Summary</strong> </p>
+            <p>{{book.summary}}</p>
+            <small>{{book.isbn}}</small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s10 offset-s2">
+            <h4>Copies:</h4>
+            <div class="container">
+                {% for inst in book.bookinstance_set.all %}
+                    <li class="collection-item">
+                        <span>Status: </span>
+                        <span class="title {% if inst.status == 'a' %}green-text darken-1 {% elif inst.status == 'm' %}red-text darken-1 {% else %} text-orange {% endif %}"> {{inst.get_status_display}}</span>
+                        {% if copy.status != 'a' %} <p><strong> Due Date: </strong> {{inst.due_date}}</p> {% endif %}
+                        <p><strong>Imprint: </strong>{{inst.imprint}} </p>
+                        <small class="text-grey lighten-1">Copy ID: {{inst.id}}</small>
+                    </li>
+                    {% if not forloop.last %}
+                    <br>
+                    <div class="divider">
+                    </div>
+                    <br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

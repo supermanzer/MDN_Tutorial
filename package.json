@@ -1,0 +1,24 @@
+{
+  "name": "local_library",
+  "version": "0.1.0",
+  "description": "MDN tutorial Local Library application",
+  "main": "manage.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Django",
+    "REST",
+    "API",
+    "MDN"
+  ],
+  "author": "C. Ryan Manzer",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.3.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify": "^3.0.0"
+  }
+}

@@ -1,0 +1,19 @@
+{% extends "catalog/base_index.html" %}
+
+{% block content %}
+    <h3>Genre List</h3>
+
+    {% for genre in genre_list %}
+        {% if forloop.first %}
+            <div class="collection">
+        {% endif %}
+        <li class="collection-item"><a href="{{genre.get_absolute_url}}">{{genre}}</li>
+        {% if forloop.last %}
+            </div>
+        {% endif %}
+    {% empty %}
+        <h4>No Genres!</h4>
+        <div class="divider"> </div>
+        <p>That's weird</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,54 @@
+/*
+scss/main.scss
+This file defines the imports of our various component SASS files.
+*/
+/*
+----------------------------------------------------------------
+footer.css
+
+A set of rules to style footer elements.
+
+*/
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin-top: 1em; }
+
+body {
+  background-color: #90db23;
+  widows: 50%; }
+
+/*
+scss/_gradients.scss
+---------------------------------------------------------------
+A file for defining gradient classes that can be applied to any element that supports a background-image property.
+*/
+.gd-teal {
+  background-image: linear-gradient(135deg, #90F7EC 10%, #32CCBC 100%); }
+
+.gd-lightblue {
+  background-image: linear-gradient(135deg, #ABDCFF 10%, #0396FF 100%); }
+
+.gd-lightorange {
+  background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%); }
+
+.gd-tealblue {
+  background-image: linear-gradient(135deg, #5EFCE8 10%, #736EFE 100%); }
+
+.gd-aquadark {
+  background-image: linear-gradient(135deg, #52E5E7 10%, #130CB7 100%); }
+
+.gd-brightorange {
+  background-image: linear-gradient(135deg, #FDD819 10%, #E80505 100%); }
+
+.gd-darkred {
+  background-image: linear-gradient(135deg, #F05F57 10%, #360940 100%); }
+
+.gd-brightblue {
+  background-image: linear-gradient(135deg, #2AFADF 10%, #4C83FF 100%); }
+
+.gd-morebluer {
+  background-image: linear-gradient(135deg, #3C8CE7 10%, #00EAFF 100%); }

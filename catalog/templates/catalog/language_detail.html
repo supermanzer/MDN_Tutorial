@@ -1,0 +1,29 @@
+{% extends "catalog/base_index.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12">
+            <h3>{{language.language}}</h3>
+        </div>
+        <div class="col s11 offset-s1">
+            <h4>Books in {{language.language}}: </h4>
+            {% for bi in language.books.all %}
+                <div class="card z-depth-1 ">
+                    <span class="card-title">
+                        {{bi.book.title}}
+                    </span>
+
+                    <p>{{bi.book.summary}}</p>
+                    <div class="card-action">
+                        <a href="{{bi.book.get_absolute_url}}" class='btn gd-tealblue waves-effect waves-light hoverable'>Book Details</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="card red darken-2 white-text">
+                    <span class='card-title'>No Books in this Language</span>
+                    <p>I wonder why we even have a record of this.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

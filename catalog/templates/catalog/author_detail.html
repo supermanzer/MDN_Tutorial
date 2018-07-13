@@ -1,0 +1,38 @@
+{% extends "catalog/base_index.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12">
+            <div class="card ">
+                <span class='card-title'>{{author.first_name}} {{author.last_name}}</span>
+                <div class="divider">
+
+                </div>
+                <p><strong>Date of Birth:</strong> {{author.date_of_birth}}</p>
+                {% if author.date_of_death %}
+                <p><strong>Date of Death:</strong> {{author.date_of_death}}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col s11 offset-s1">
+            <h4>Books by this Author: </h4>
+            {% for book in author.book_set.all %}
+                <div class="card z-depth-1 ">
+                    <span class="card-title">
+                        {{book.title}}
+                    </span>
+                
+                    <p>{{book.summary}}</p>
+                    <div class="card-action">
+                        <a href="{{book.get_absolute_url}}" class='btn gd-tealblue waves-effect waves-light hoverable'>Book Details</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="card red darken-2 white-text">
+                    <span class='card-title'>No Books by This Author</span>
+                    <p>I wonder why we even have a record of this person.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

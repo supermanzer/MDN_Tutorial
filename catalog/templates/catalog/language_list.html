@@ -1,0 +1,19 @@
+{% extends "catalog/base_index.html" %}
+
+{% block content %}
+<h3>Available Languages</h3>
+
+{% for lang in language_list %}
+    {% if forloop.first %}
+        <div class="collection">
+    {% endif %}
+    <li class="collection-item"><a href="{{lang.get_absolute_url}}" class="black-text"><strong>{{lang.language}} </strong> <div class="right"> {{lang.books.count}} Books Available.</div></li>
+    {% if forloop.last %}
+        </div>
+    {% endif %}
+{% empty %}
+    <h4>No Languages</h4>
+    <div class="divider"> </div>
+    <p>This is very weird.  This library has no books in known human languages.</p>
+{% endfor %}
+{% endblock %}

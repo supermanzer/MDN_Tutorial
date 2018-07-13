@@ -1,0 +1,37 @@
+{% extends "catalog/base_index.html" %}
+
+{% block content %}
+    <p>This is a very basic Django page, built based upon the Mozilla Developer Network tutorial.</p>
+    <p>  I find I continue to revise my ideas for how best to implement Django solutions by re-working simple tutorials.  This provides me a simple app in which to try out new implementation ideas where the logic of all the interconnected parts is minimal. </p>
+    <p>The little tidbit about passing additioal options in the URL mappings to route multiple URLs to the same view with slighlty different behavior in Section 6 is a real gem and I'm sure I'll have a use for it soon.</p>
+    <p>Another idea worth a little testing is changing the session in the Django server side code and having a JavaScript listener detect the change and respond.  While this wouldn't be as robust as using Django Channels, it would allow the updating of small UI components like the Upload Status of a file.</p>
+    <div class="divider">
+    </div>
+    <div class="row">
+        <div class="col s6 ">
+            <!-- Author Card -->
+            <div class="card hoverable  small z-depth-2">
+                <div class="card-content ">
+                    <span class='card-title'>Authors</span>
+                    <p>Review our {{num_authors}} authors using the button below</p>
+                </div>
+
+                <div class="card-action blue-grey darken-1">
+                    <a class="waves-effect waves-light btn gd-brightorange" href="{% url 'catalog:authors' %}">Author List</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s6 ">
+            <!-- Books Card -->
+            <div class="card hoverable  small z-depth-2">
+                <div class="card-content ">
+                    <span class="card-title">Books</span>
+                    <p>Review our {{num_books}} books using the button below.</p>
+                </div>
+                <div class="card-action blue-grey darken-1">
+                    <a href="{% url 'catalog:books' %}" class="waves-effect waves-light btn gd-brightblue">Books List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

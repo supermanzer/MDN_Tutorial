@@ -1,0 +1,10 @@
+/*
+scss/main.scss
+This file defines the imports of our various component SASS files.
+*/
+
+// Importing our footer style rules
+@import 'footer';
+
+// Importing our gradient class rules
+@import 'gradients';

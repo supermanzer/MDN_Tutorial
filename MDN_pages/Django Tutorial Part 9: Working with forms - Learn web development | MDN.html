@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html dir="ltr" class="" lang="en-US"><head prefix="og: http://ogp.me/ns#">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <script>(function(d) { d.className = d.className.replace(/\bno-js/, ''); })(document.documentElement);</script>
+  <title>Django Tutorial Part 9: Working with forms - Learn web development | MDN</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  
+<link rel="preload" href="https://developer.mozilla.org/static/fonts/locales/ZillaSlab-Regular.f9de6143fdfa.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="home" href="https://developer.mozilla.org/en-US/">
+    <link rel="license" href="#license">
+  
+
+  
+    
+    
+
+    <link href="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/mdn.css" rel="stylesheet" type="text/css">
+
+    
+  
+
+    <link href="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/wiki.css" rel="stylesheet" type="text/css">
+
+
+    
+      
+        <link href="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/zone-learn.css" rel="stylesheet" type="text/css">
+      
+    
+
+  <link href="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/locale-en-US.css" rel="stylesheet" type="text/css">
+
+  
+    <script type="text/javascript" src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/mozilla-dnthelper.js" charset="utf-8"></script>
+    
+
+<script>
+    // only load GA if DNT is not enabled
+    if (Mozilla && !Mozilla.dntEnabled()) {
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-36116321-5', 'mozilla.org');
+        ga('set', 'anonymizeIp', true);
+
+        
+
+        // dimension9 == "Section editing"
+        
+            // dimension12 == 'Page Revision'
+            ga('set', 'dimension12', '1348167');
+            // dimension17 == 'English Slug'
+            ga('set', 'dimension17', 'Learn/Server-side/Django/Forms');
+
+        (function() {
+            // http://cfsimplicity.com/61/removing-analytics-clutter-from-campaign-urls
+            var win = window;
+            var removeUtms = function(){
+                var location = win.location;
+                if (location.href.indexOf('utm') != -1 && win.history.replaceState) {
+                    win.history.replaceState({}, '', location.pathname);
+                }
+            };
+
+            ga('send', 'pageview', {'hitCallback': removeUtms});
+        })();
+    }
+</script>
+
+  
+    <!-- common social tags -->
+    
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png">
+    <meta property="og:site_name" content="MDN Web Docs">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png">
+    <meta name="twitter:site" content="@MozDevNet">
+    <meta name="twitter:creator" content="@MozDevNet">
+    <link rel="search" type="application/opensearchdescription+xml" href="https://developer.mozilla.org/en-US/search/xml" title="MDN Web Docs">
+  
+
+  <!-- third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://developer.mozilla.org/static/img/favicon144.e7e21ca263ca.png">
+  <!-- iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://developer.mozilla.org/static/img/favicon114.d526f38b09c5.png">
+  <!-- first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://developer.mozilla.org/static/img/favicon72.cc65d1d762a0.png">
+  <!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="https://developer.mozilla.org/static/img/favicon57.de33179910ae.png">
+  <!-- basic favicon -->
+  <link rel="shortcut icon" href="https://developer.mozilla.org/static/img/favicon32.7f3da72dcea1.png">
+  <!--[if IE]>
+  <meta http-equiv="imagetoolbar" content="no">
+  <script type="text/javascript" src="https://developer.mozilla.org/static/build/js/html5shiv.3948ccddab6f.js" charset="utf-8"></script>
+  <![endif]-->
+
+  
+  <link rel="dns-prefetch" href="https://interactive-examples.mdn.mozilla.net/" pr="0.75">
+  <link rel="preconnect" href="https://interactive-examples.mdn.mozilla.net/" pr="0.75">
+
+  <link rel="preload" href="https://interactive-examples.mdn.mozilla.net/js/codemirror-5-31-0.js" as="script">
+  <link rel="preload" href="https://interactive-examples.mdn.mozilla.net/js/editor-js.js" as="script">
+
+  <link rel="alternate" type="application/json" href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms$json">
+  <link rel="canonical" href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms">
+
+  
+  <link rel="alternate" hreflang="en-US" href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms" title="Django Tutorial Part 9: Working with forms">
+  
+    
+      <link rel="alternate" hreflang="es" href="https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Forms" title="Tutorial de Django Parte 9: Trabajo con formularios">
+    
+      <link rel="alternate" hreflang="fr" href="https://developer.mozilla.org/fr/docs/Learn/Server-side/Django/Forms" title="Django Tutorial Part 9: Working with forms">
+    
+      <link rel="alternate" hreflang="id" href="https://developer.mozilla.org/id/docs/Learn/Server-side/Django/Forms" title="Tutorial Django Bagian 9: Bekerja dengan forms">
+    
+      <link rel="alternate" hreflang="ko" href="https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Forms" title="Django Tutorial Part 9: Working with forms">
+    
+      <link rel="alternate" hreflang="ru" href="https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/Forms" title="Руководство часть 9: Работа с формами">
+    
+      <link rel="alternate" hreflang="zh-CN" href="https://developer.mozilla.org/zh-CN/docs/learn/Server-side/Django/Forms" title="Django Tutorial Part 9: Working with forms">
+    
+  
+
+  <!-- document-specific social tags -->
+  <meta property="og:title" content="Django Tutorial Part 9: Working with forms">
+  <meta property="og:url" content="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms">
+  <meta name="twitter:url" content="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms">
+  <meta name="twitter:title" content="Django Tutorial Part 9: Working with forms">
+  
+  <meta property="og:description" content="Creating and handling forms can be a complicated process! Django makes it much easier by providing programmatic mechanisms to declare, render and validate forms. Furthermore, Django provides generic form editing views that can do almost all the work to define pages that can create, edit, and delete records associated with a single model instance.">
+  <meta name="description" content="Creating and handling forms can be a complicated process! Django makes it much easier by providing programmatic mechanisms to declare, render and validate forms. Furthermore, Django provides generic form editing views that can do almost all the work to define pages that can create, edit, and delete records associated with a single model instance.">
+  <meta name="twitter:description" content="Creating and handling forms can be a complicated process! Django makes it much easier by providing programmatic mechanisms to declare, render and validate forms. Furthermore, Django provides generic form editing views that can do almost all the work to define pages that can create, edit, and delete records associated with a single model instance.">
+  
+
+<script async="" data-manual="true" src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/syntax-prism.js"></script></head>
+<body data-slug="Learn/Server-side/Django/Forms" contextmenu="edit-history-menu" data-search-url="" class="document zone ">
+
+  <script>
+    // make sure global mdn object exists
+    var mdn = window.mdn || {};
+
+    (function(win) {
+        'use strict';
+
+        (function(){
+  var FLAGS = {
+    'kumaediting': false,'page_move': false,'section_edit': false,'spam_checks_enabled': true,'spam_submissions_enabled': false,'spam_admin_override': false,'spam_spammer_override': false,'spam_testing_mode': false,'sg_task_completion': false
+    },
+    SWITCHES = {
+    'welcome_email': true,'application_ACAO': true,'store_revision_ips': true,'foundation_callout': false,'helpful-survey-2': true,'wiki_spam_training': true,'registration_disabled': false
+    },
+    SAMPLES = {
+    
+    };
+  window.waffle = {
+    "flag_is_active": function waffle_flag(flag_name) {
+      
+      return !!FLAGS[flag_name];
+    },
+    "switch_is_active": function waffle_switch(switch_name) {
+      
+      return !!SWITCHES[switch_name];
+    },
+    "sample_is_active": function waffle_sample(sample_name) {
+      
+      return !!SAMPLES[sample_name];
+    },
+    "FLAGS": FLAGS,
+    "SWITCHES": SWITCHES,
+    "SAMPLES": SAMPLES
+  };
+})();
+
+
+        // This needs to be set before ckeditor.js loads
+        window.CKEDITOR_BASEPATH = '/static/js/libs/ckeditor/build/ckeditor/';
+
+        // Site configuration
+        win.mdn.ckeditor = {};
+        win.mdn.features = {};
+        win.mdn.staticPath = 'https://developer.mozilla.org/static/';
+        win.mdn.wiki = {
+            autosuggestTitleUrl: '/en-US/docs/get-documents'
+        };
+        win.mdn.assets = {
+            css: {
+                'editor-content': ['https://developer.mozilla.org/static/build/styles/editor-content.7f97ba7f9e73.css','https://developer.mozilla.org/static/build/styles/editor-locale-en-US.ca0bca387b42.css',
+                ],
+
+                'wiki-compat-tables': ['https://developer.mozilla.org/static/build/styles/wiki-compat-tables.481447ac27b5.css',]
+            },
+            js: {
+                'syntax-prism': ['https://developer.mozilla.org/static/build/js/syntax-prism.05dc5663d445.js',],
+                'wiki-compat-tables': ['https://developer.mozilla.org/static/build/js/wiki-compat-tables.003f4acf76ea.js',]
+            }
+        };
+
+        win.mdn.notifications = [];
+
+        
+
+        // interactive editor config
+        win.mdn.interactiveEditor = {
+            siteUrl: "https://developer.mozilla.org",
+            editorUrl: "https://interactive-examples.mdn.mozilla.net"
+        };
+
+    })(this);
+</script>
+    
+    <ul id="nav-access">
+  <li><a href="#content" id="skip-main">Skip to main content</a></li>
+  <li><a id="skip-language" href="#language">Select language</a></li>
+  <li><a href="#q" id="skip-search">Skip to search</a></li>
+</ul>
+
+    <!-- Header -->
+    <header id="main-header" class="header-main">
+      <a href="https://developer.mozilla.org/en-US/" class="logo">MDN Web Docs</a>
+      <div class="nav-toolbox-wrapper">
+        <nav id="main-nav" class="nav-main" role="navigation">
+    <ul>
+        <li class="nav-main-item">
+            <a href="https://developer.mozilla.org/en-US/docs/Web">Technologies
+                <svg class="icon icon-caret-down" xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28">
+    <path d="M16 11a.99.99 0 0 1-.297.703l-7 7C8.516 18.89 8.265 19 8 19s-.516-.109-.703-.297l-7-7A.996.996 0 0 1 0 11c0-.547.453-1 1-1h14c.547 0 1 .453 1 1z"></path>
+</svg>
+            </a>
+            <div class="submenu js-submenu" id="nav-tech-submenu">
+                <div class="submenu-column">
+                  <ul>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Graphics">Graphics</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP">HTTP</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API">APIs / DOM</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions">Browser Extensions</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/MathML">MathML</a></li>
+                  </ul>
+                </div>
+            </div>
+        </li>
+        <li class="nav-main-item">
+            <a href="https://developer.mozilla.org/en-US/docs/Learn">References &amp; Guides
+                <svg class="icon icon-caret-down" xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28">
+    <path d="M16 11a.99.99 0 0 1-.297.703l-7 7C8.516 18.89 8.265 19 8 19s-.516-.109-.703-.297l-7-7A.996.996 0 0 1 0 11c0-.547.453-1 1-1h14c.547 0 1 .453 1 1z"></path>
+</svg>
+            </a>
+            <div class="submenu js-submenu" id="nav-learn-submenu">
+                <div class="submenu-column">
+                  <ul>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Learn">Learn web development</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/Tutorials">Tutorials</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/Reference">References</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide">Developer Guides</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility">Accessibility</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Games">Game development</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web">...more docs</a></li>
+                  </ul>
+                </div>
+            </div>
+        </li>
+        <li class="nav-main-item">
+            <a href="https://developer.mozilla.org/en-US/docs/MDN/Feedback">Feedback
+                <svg class="icon icon-caret-down" xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28">
+    <path d="M16 11a.99.99 0 0 1-.297.703l-7 7C8.516 18.89 8.265 19 8 19s-.516-.109-.703-.297l-7-7A.996.996 0 0 1 0 11c0-.547.453-1 1-1h14c.547 0 1 .453 1 1z"></path>
+</svg>
+            </a>
+            <div class="submenu js-submenu" id="nav-contact-submenu">
+              <div class="submenu-column">
+                <ul>
+                  <li>
+                      <a href="https://support.mozilla.org/">Get Firefox help
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+    <path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path>
+</svg>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="https://stackoverflow.com/">Get web development help
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+    <path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path>
+</svg>
+                      </a>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                      <a href="https://developer.mozilla.org/en-US/docs/MDN/Community">Join the MDN community</a>
+                  </li>
+                  <li>
+                      <a target="_blank" href="https://bugzilla.mozilla.org/form.doc?bug_file_loc=https%3A//developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms">Report a content problem
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+    <path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path>
+</svg>
+                      </a>
+                  </li>
+                  <li>
+                      <a target="_blank" href="https://bugzilla.mozilla.org/form.mdn">Report a bug
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+    <path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path>
+</svg>
+                      </a>
+                  </li>
+                </ul>
+              </div>
+          </div>
+      </li>
+  </ul>
+</nav>
+        <div id="toolbox" class="toolbox">
+  <ul>
+    
+    <li class="nav-login"><div class="login">
+    
+        
+        <a href="https://developer.mozilla.org/users/github/login/?next=%2Fen-US%2Fdocs%2FLearn%2FServer-side%2FDjango%2FForms" class="login-link js-login-link" data-service="GitHub" rel="nofollow">
+            Sign in<svg class="icon icon-github" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28">
+    <title>Github</title>
+    <path d="M12 2c6.625 0 12 5.375 12 12 0 5.297-3.437 9.797-8.203 11.391-.609.109-.828-.266-.828-.578 0-.391.016-1.687.016-3.297 0-1.125-.375-1.844-.812-2.219 2.672-.297 5.484-1.313 5.484-5.922 0-1.313-.469-2.375-1.234-3.219.125-.313.531-1.531-.125-3.187-1-.313-3.297 1.234-3.297 1.234a11.28 11.28 0 0 0-6 0S6.704 6.656 5.704 6.969c-.656 1.656-.25 2.875-.125 3.187-.766.844-1.234 1.906-1.234 3.219 0 4.594 2.797 5.625 5.469 5.922-.344.313-.656.844-.766 1.609-.688.313-2.438.844-3.484-1-.656-1.141-1.844-1.234-1.844-1.234-1.172-.016-.078.734-.078.734.781.359 1.328 1.75 1.328 1.75.703 2.141 4.047 1.422 4.047 1.422 0 1 .016 1.937.016 2.234 0 .313-.219.688-.828.578C3.439 23.796.002 19.296.002 13.999c0-6.625 5.375-12 12-12zM4.547 19.234c.031-.063-.016-.141-.109-.187-.094-.031-.172-.016-.203.031-.031.063.016.141.109.187.078.047.172.031.203-.031zm.484.532c.063-.047.047-.156-.031-.25-.078-.078-.187-.109-.25-.047-.063.047-.047.156.031.25.078.078.187.109.25.047zm.469.703c.078-.063.078-.187 0-.297-.063-.109-.187-.156-.266-.094-.078.047-.078.172 0 .281s.203.156.266.109zm.656.656c.063-.063.031-.203-.063-.297-.109-.109-.25-.125-.313-.047-.078.063-.047.203.063.297.109.109.25.125.313.047zm.891.391c.031-.094-.063-.203-.203-.25-.125-.031-.266.016-.297.109s.063.203.203.234c.125.047.266 0 .297-.094zm.984.078c0-.109-.125-.187-.266-.172-.141 0-.25.078-.25.172 0 .109.109.187.266.172.141 0 .25-.078.25-.172zm.906-.156c-.016-.094-.141-.156-.281-.141-.141.031-.234.125-.219.234.016.094.141.156.281.125s.234-.125.219-.219z"></path>
+</svg>
+        </a>
+    
+</div></li>
+  </ul>
+</div>
+      </div>
+      <form id="nav-main-search" action="/en-US/search" method="get" role="search" class="nav-main-search">
+  <div class="search-wrap">
+    <label for="main-q" class="offscreen">Search</label>
+    <input id="main-q" name="q" placeholder="Search" data-value="" aria-hidden="true" type="search">
+    <span class="search-trigger">
+        <svg class="icon icon-search" xmlns="http://www.w3.org/2000/svg" width="26" height="28" viewBox="0 0 26 28" aria-hidden="true">
+    <path d="M18 13c0-3.859-3.141-7-7-7s-7 3.141-7 7 3.141 7 7 7 7-3.141 7-7zm8 13c0 1.094-.906 2-2 2a1.96 1.96 0 0 1-1.406-.594l-5.359-5.344a10.971 10.971 0 0 1-6.234 1.937c-6.078 0-11-4.922-11-11s4.922-11 11-11 11 4.922 11 11c0 2.219-.672 4.406-1.937 6.234l5.359 5.359c.359.359.578.875.578 1.406z"></path>
+</svg>
+    </span>
+    <button type="submit" class="offscreen">Search</button>
+    <button type="button" id="close-header-search" class="close-header-search transparent">
+        <span class="offscreen">Close search</span>
+        <svg class="icon icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 22 28" aria-hidden="true">
+    <path d="M20.281 20.656c0 .391-.156.781-.438 1.062l-2.125 2.125c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438L11 19.249l-4.594 4.594c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438l-2.125-2.125c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062L6.751 15l-4.594-4.594c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062l2.125-2.125c.281-.281.672-.438 1.062-.438s.781.156 1.062.438L11 10.751l4.594-4.594c.281-.281.672-.438 1.062-.438s.781.156 1.062.438l2.125 2.125c.281.281.438.672.438 1.062s-.156.781-.438 1.062L15.249 15l4.594 4.594c.281.281.438.672.438 1.062z"></path>
+</svg>
+    </button>
+  </div>
+</form>
+    </header> 
+
+  <!-- Content will go here -->
+  <main id="content" role="main">
+      
+  <!-- heading -->
+  <div id="wiki-document-head" class="document-head">
+    <div class="center">
+      <!-- action buttons -->
+      <div class="document-actions">
+        
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  <ul class="page-buttons">
+      <li>
+          <button id="languages-menu" class="transparent" aria-haspopup="true" aria-owns="languages-menu-submenu" aria-expanded="false">
+              <svg class="icon icon-language" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M10.219 16.844c-.031.109-.797-.25-1-.328-.203-.094-1.125-.609-1.359-.766s-1.125-.891-1.234-.938a28.275 28.275 0 0 1-2.094 2.828c-.281.328-1.125 1.391-1.641 1.719-.078.047-.531.094-.594.063.25-.187.969-1.078 1.281-1.437.391-.453 2.25-3.047 2.562-3.641.328-.594 1.312-2.562 1.359-2.75-.156-.016-1.391.406-1.719.516-.313.094-1.172.297-1.234.344-.063.063-.016.25-.047.313s-.313.203-.484.234a1.647 1.647 0 0 1-.734 0c-.203-.047-.391-.25-.438-.328 0 0-.063-.094-.078-.359.187-.063.5-.078.844-.172s1.188-.344 1.641-.5 1.328-.484 1.594-.547c.281-.047.984-.516 1.359-.641s.641-.281.656-.203 0 .422-.016.516c-.016.078-.766 1.547-.875 1.781-.063.125-.5.953-1.203 2.047.25.109.781.328 1 .438.266.125 2.125.906 2.219.938s.266.75.234.875zM7.016 9.25c.047.266-.031.375-.063.438-.156.297-.547.5-.781.594s-.625.187-.938.187c-.141-.016-.422-.063-.766-.406-.187-.203-.328-.75-.266-.688s.516.125.719.078.688-.187.906-.25c.234-.078.703-.203.859-.219.156 0 .281.063.328.266zm10.906 2.016l.984 3.547-2.172-.656zM.609 23.766l10.844-3.625V4.016L.609 7.657v16.109zM20 18.813l1.594.484-2.828-10.266-1.563-.484-3.375 8.375 1.594.484.703-1.719 3.297 1.016zM12.141 3.781l8.953 2.875V.718zM17 24.453l2.469.203-.844 2.5L18 26.125c-1.266.812-2.828 1.437-4.312 1.687-.453.094-.969.187-1.422.187h-1.313c-1.656 0-4.672-.984-5.984-1.937-.094-.078-.125-.141-.125-.25 0-.172.125-.297.281-.297.141 0 .875.453 1.078.547 1.406.703 3.375 1.344 4.953 1.344 1.953 0 3.281-.25 5.063-1.016.516-.234.969-.531 1.453-.797zm7-16.859v16.859c-12.078-3.844-12.094-3.844-12.094-3.844C11.656 20.718.453 24.5.297 24.5a.3.3 0 0 1-.281-.203c0-.016-.016-.031-.016-.047V7.406c.016-.047.031-.125.063-.156.094-.109.219-.141.313-.172.047-.016 1-.328 2.328-.781v-6l8.719 3.094C11.532 3.36 21.251 0 21.392 0c.172 0 .313.125.313.328v6.531z"></path>
+</svg>
+              <span>Languages</span>
+          </button>
+
+        <div class="submenu js-submenu" id="languages-menu-submenu">
+          <div class="submenu-column">
+            <ul id="translations">
+              
+                
+                
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Forms" data-locale="es" title="Spanish">Español (es)</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/fr/docs/Learn/Server-side/Django/Forms" data-locale="fr" title="French">Français (fr)</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/id/docs/Learn/Server-side/Django/Forms" data-locale="id" title="Indonesian">Bahasa Indonesia (id)</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Forms" data-locale="ko" title="Korean">한국어 (ko)</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/Forms" data-locale="ru" title="Russian">Русский (ru)</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/zh-CN/docs/learn/Server-side/Django/Forms" data-locale="zh-CN" title="Chinese (Simplified)">中文 (简体) (zh-CN)</a></bdi></li>
+                
+              
+
+              
+                <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms$locales" rel="nofollow" id="translations-add">Add a translation</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      </li>
+      
+      <li class="page-buttons-edit">
+          <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms$edit" class="button neutral" id="edit-button" rel="nofollow">
+              <svg class="icon icon-pencil" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M5.672 24l1.422-1.422-3.672-3.672L2 20.328V22h2v2h1.672zm8.172-14.5a.329.329 0 0 0-.344-.344.368.368 0 0 0-.266.109l-8.469 8.469a.366.366 0 0 0-.109.266c0 .203.141.344.344.344a.368.368 0 0 0 .266-.109l8.469-8.469a.366.366 0 0 0 .109-.266zM13 6.5l6.5 6.5-13 13H0v-6.5zM23.672 8c0 .531-.219 1.047-.578 1.406L20.5 12 14 5.5l2.594-2.578c.359-.375.875-.594 1.406-.594s1.047.219 1.422.594l3.672 3.656c.359.375.578.891.578 1.422z"></path>
+</svg>
+              Edit
+          </a>
+      </li>
+      
+
+        
+
+        <li class="page-buttons-advanced">
+            <button id="advanced-menu" class="only-icon" aria-haspopup="true" aria-owns="advanced-menu-submenu" aria-expanded="false">
+                <svg class="icon icon-gear" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M16 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zm8-1.703v3.469c0 .234-.187.516-.438.562l-2.891.438a8.86 8.86 0 0 1-.609 1.422c.531.766 1.094 1.453 1.672 2.156.094.109.156.25.156.391s-.047.25-.141.359c-.375.5-2.484 2.797-3.016 2.797a.795.795 0 0 1-.406-.141l-2.156-1.687a9.449 9.449 0 0 1-1.422.594c-.109.953-.203 1.969-.453 2.906a.573.573 0 0 1-.562.438h-3.469c-.281 0-.531-.203-.562-.469l-.438-2.875a9.194 9.194 0 0 1-1.406-.578l-2.203 1.672c-.109.094-.25.141-.391.141s-.281-.063-.391-.172c-.828-.75-1.922-1.719-2.578-2.625a.607.607 0 0 1 .016-.718c.531-.719 1.109-1.406 1.641-2.141a8.324 8.324 0 0 1-.641-1.547l-2.859-.422A.57.57 0 0 1 0 15.705v-3.469c0-.234.187-.516.422-.562l2.906-.438c.156-.5.359-.969.609-1.437a37.64 37.64 0 0 0-1.672-2.156c-.094-.109-.156-.234-.156-.375s.063-.25.141-.359c.375-.516 2.484-2.797 3.016-2.797.141 0 .281.063.406.156L7.828 5.94a9.449 9.449 0 0 1 1.422-.594c.109-.953.203-1.969.453-2.906a.573.573 0 0 1 .562-.438h3.469c.281 0 .531.203.562.469l.438 2.875c.484.156.953.344 1.406.578l2.219-1.672c.094-.094.234-.141.375-.141s.281.063.391.156c.828.766 1.922 1.734 2.578 2.656a.534.534 0 0 1 .109.344c0 .141-.047.25-.125.359-.531.719-1.109 1.406-1.641 2.141.266.5.484 1.016.641 1.531l2.859.438a.57.57 0 0 1 .453.562z"></path>
+</svg>
+                <span>Advanced</span>
+            </button>
+            <div class="submenu js-submenu" id="advanced-menu-submenu">
+                <!-- this page -->
+                <div class="submenu-column">
+                    <div class="title">Advanced</div>
+                    <ul>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms$history" rel="nofollow">History</a></li>
+                        
+                        
+                        
+
+
+                
+
+                
+                
+                
+                <li class="page-print"><a href="#" onclick="return window.print();">Print this article</a></li>
+            </ul>
+          </div>
+        </div>
+  </li></ul>
+      </div>
+
+      <div class="document-title">
+        
+          <!-- zone image, link to zone root -->
+          <a class="zone-parent" href="https://developer.mozilla.org/en-US/docs/Learn">Learn web development</a>
+        
+
+        <h1>Django Tutorial Part 9: Working with forms</h1>
+      </div>
+    </div>
+  </div>
+  
+
+      <div class="center clear">
+      
+
+    <div class="wiki-main-content"><div class="center">
+      <!-- start the main content container -->
+        <div id="wiki-column-container" class="wiki-left-present">
+
+          <!-- content row with three strips -->
+          <div class="column-container column-container-reverse">
+
+            <!-- center: main article content -->
+            <div id="wiki-content" class="column-main wiki-column text-content">
+
+              
+
+              
+              
+
+              
+
+              
+              
+
+              <!-- just the article content -->
+              <article id="wikiArticle">
+                
+                  
+                    <div></div>
+
+<div><div class="prevnext">
+    <div><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/authentication_and_sessions" style="float: left; width: 20%; text-align: left;"><span style="display: inline-block; background: #eaeff2; border-radius: 4px; box-shadow: inset 0 -1px #bbbfc2; color: #4d4353; padding: 0.3em 0.8em;"><i class="icon-arrow-left"></i> Previous </span></a><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django" style="float: left; width: 60%; text-align: center;"><span style="display: inline-block; background: #eaeff2; border-radius: 4px; box-shadow: inset 0 -1px #bbbfc2; color: #4d4353; padding: 0.3em 0.8em;"><i class="icon-arrow-up"></i> Overview: Django</span></a><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing" style="width: 20%; float: right; text-align: right;"><span style="display: inline-block; background: #eaeff2; border-radius: 4px; box-shadow: inset 0 -1px #bbbfc2; color: #4d4353; padding: 0.3em 0.8em;"> Next  <i class="icon-arrow-right"></i></span></a></div>
+    <p>&nbsp;</p>
+</div></div>
+
+<p class="summary">In this tutorial we'll show you how to work with HTML
+ Forms in Django, and in particular the easiest way to write forms to 
+create, update, and delete model instances. As part of this 
+demonstration we'll extend the <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website">LocalLibrary</a>
+ website so that librarians can renew books, and create, update, and 
+delete authors using our own forms (rather than using the admin 
+application).</p>
+
+<table class="learn-box standard-table">
+ <tbody>
+  <tr>
+   <th scope="row">Prerequisites:</th>
+   <td>Complete all previous tutorial topics, including <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/authentication_and_sessions">Django Tutorial Part 8: User authentication and permissions</a>.</td>
+  </tr>
+  <tr>
+   <th scope="row">Objective:</th>
+   <td>To understand how to write forms to get information from users 
+and update the database. To understand how the generic class-based form 
+editing views can vastly simplify creating forms for working with a 
+single model.</td>
+  </tr>
+ </tbody>
+</table>
+
+<h2 id="Overview">Overview</h2>
+
+<p>An <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms">HTML Form</a>
+ is a group of one or more fields/widgets on a web page, which can be 
+used to collect information from users for submission to a server. Forms
+ are a flexible mechanism for collecting user input because there are 
+suitable widgets for entering many different types of data, including 
+text boxes, checkboxes, radio buttons, date pickers, etc. Forms are also
+ a relatively secure way of sharing data with the server, as they allow 
+us to send data in <code>POST</code> requests with cross-site request forgery protection.</p>
+
+<p>While we haven't created any forms in this tutorial so far, we've 
+already encountered them in the Django Admin site — for example the 
+screenshot below shows a form for editing one of our <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models">Book</a> models, comprised of a number of selection lists and text editors.</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/admin_book_add.png" alt="Admin Site - Book Add" style="border-style: solid; border-width: 1px; display: block; margin: 0px auto;"></p>
+
+<p>Working with forms can be complicated! Developers need to write HTML 
+for the form, validate and properly sanitise entered data on the server 
+(and possibly also in the browser), repost the form with error messages 
+to inform users of any invalid fields, handle the data when it has 
+successfully been submitted, and finally respond to the user in some way
+ to indicate success. <em>Django Forms</em> take a lot of the work out 
+of all these steps, by providing a framework that lets you define forms 
+and their fields programmatically, and then use these objects to both 
+generate the form HTML code and handle much of the validation and user 
+interaction.</p>
+
+<p>In this tutorial we're going to show you a few of the ways you can 
+create and work with forms, and in particular, how the generic editing 
+form views can significantly reduce the amount of work you need to do to
+ create forms to manipulate your models. Along the way we'll extend our <em>LocalLibrary</em>
+ application by adding a form to allow librarians to renew library 
+books, and we'll create pages to create, edit and delete books and 
+authors (reproducing a basic version of the form shown above for editing
+ books).</p>
+
+<h2 id="HTML_Forms">HTML Forms</h2>
+
+<p>First a brief overview of <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms">HTML Forms</a>. Consider a simple HTML form, with a single text field for entering the name of some "team", and its associated label:</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/form_example_name_field.png" alt="Simple name field example in HTML form" style="border-style: solid; border-width: 1px; display: block; height: 44px; margin: 0px auto; width: 399px;"></p>
+
+<p>The form is defined in HTML as a collection of elements inside <code>&lt;form&gt;...&lt;/form&gt;</code> tags, containing at least one <code>input</code> element of <code>type="submit"</code>.</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/team_name_url/<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>post<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>team_name<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Enter name: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>team_name<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>name_field<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Default name for team.<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>OK<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>While here we just have one text field for entering the team name, a form <em>may</em> have any number of other input elements and their associated labels. The field's <code>type</code> attribute defines what sort of widget will be displayed. The <code>name</code> and <code>id</code> of the field are used to identify the field in JavaScript/CSS/HTML, while <code>value</code> defines the initial value for the field when it is first displayed. The matching team label is specified using the <code style="font-style: normal; font-weight: normal;">label</code> tag (see "Enter name" above), with a <code style="font-style: normal; font-weight: normal;">for</code> field containing the <code style="font-style: normal; font-weight: normal;">id</code> value of the associated <code style="font-style: normal; font-weight: normal;">input</code>.</p>
+
+<p>The <code>submit</code> input will be displayed as a button (by 
+default) that can be pressed by the user to upload the data in all the 
+other input elements in the form to the server (in this case, just the <code>team_name</code>). The form attributes define the HTTP <code>method</code> used to send the data and the destination of the data on the server (<code>action</code>):</p>
+
+<ul>
+ <li><code>action</code>: The resource/URL where data is to be sent for 
+processing when the form is submitted. If this is not set (or set to an 
+empty string), then the form will be submitted back to the current page 
+URL.</li>
+ <li><code>method</code>: The HTTP method used to send the data: <em>post</em> or <em>get</em>.
+  <ul>
+   <li>The <code>POST</code> method should always be used if the data is
+ going to result in a change to the server's database, because this can 
+be made more resistant to cross-site forgery request attacks.</li>
+   <li>The <code>GET</code> method should only be used for forms that 
+don't change user data (e.g. a search form). It is recommended for when 
+you want to be able to bookmark or share the URL.</li>
+  </ul>
+ </li>
+</ul>
+
+<p>The role of the server is first to render the initial form state — 
+either containing blank fields, or pre-populated with initial values. 
+After the user presses the submit button the server will receive the 
+form data with values from the web browser, and must validate the 
+information. If the form contains invalid data the server should display
+ the form again, this time with user-entered data in "valid" fields, and
+ messages to describe the problem for the invalid fields. Once the 
+server gets a request with all valid form data it can perform an 
+appropriate action (e.g. saving the data, returning the result of a 
+search, uploading a file etc.) and then notify the user.</p>
+
+<p>As you can imagine, creating the HTML, validating the returned data, 
+re-displaying the entered data with error reports if needed, and 
+performing the desired operation on valid data can all take quite a lot 
+of effort to "get right". Django makes this a lot easier, by taking away
+ some of the heavy lifting and repetitive code!</p>
+
+<h2 id="Django_form_handling_process">Django form handling process</h2>
+
+<p>Django's form handling uses all of the same techniques that we 
+learned about in previous tutorials (for displaying information about 
+our models): the view gets a request, performs any actions required 
+including reading data from the models, then generates and returns an 
+HTML page (from a template, into which we pass a <em>context</em> 
+containing the data to be displayed). What makes things more complicated
+ is that the server also needs to be able to process data provided by 
+the user, and redisplay the page if there are any errors.</p>
+
+<p>A process flowchart of how Django handles form requests is shown 
+below, starting with a request for a page containing a form (shown in 
+green).</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/Form%2520Handling%2520-%2520Standard.png" alt="Updated form handling process doc." style="display: block; height: 569px; margin: 0px auto; width: 800px;"></p>
+
+<p>Based on the diagram above, the main things that Django's form handling does are:</p>
+
+<ol>
+ <li>Display the default form the first time it is requested by the user.
+  <ul>
+   <li>The form may contain blank fields (e.g. if you're creating a new 
+record), or it may be pre-populated with initial values (e.g. if you are
+ changing a record, or have useful default initial values).</li>
+   <li>The form is referred to as <em>unbound</em> at this point, because it isn't associated with any user-entered data (though it may have initial values).</li>
+  </ul>
+ </li>
+ <li>Receive data from a submit request and bind it to the form.
+  <ul>
+   <li>Binding data to the form means that the user-entered data and any errors are available when we need to redisplay the form.</li>
+  </ul>
+ </li>
+ <li>Clean and validate the data.
+  <ul>
+   <li>Cleaning the data performs sanitisation of the input (e.g. 
+removing invalid characters that might potentially used to send 
+malicious content to the server) and converts them into consistent 
+Python types.</li>
+   <li>Validation checks that the values are appropriate for the field 
+(e.g. are in the right date range, aren't too short or too long, etc.)</li>
+  </ul>
+ </li>
+ <li>If any data is invalid, re-display the form, this time with any user populated values and error messages for the problem fields.</li>
+ <li>If all data is valid, perform required actions (e.g. save the data,
+ send and email, return the result of a search, upload a file etc.)</li>
+ <li>Once all actions are complete, redirect the user to another page.</li>
+</ol>
+
+<p>Django provides a number of tools and approaches to help you with the tasks detailed above. The most fundamental is the <code>Form</code>
+ class, which simplifies both generation of form HTML and data 
+cleaning/validation. In the next section we describe how forms work 
+using the practical example of a page to allow librarians to renew 
+books.</p>
+
+<div class="note">
+<p><strong>Note:</strong> Understanding how <code>Form</code> is used will help you when we discuss Django's more "high level" form framework classes.</p>
+</div>
+
+<h2 id="Renew-book_form_using_a_Form_and_function_view">Renew-book form using a Form and function view</h2>
+
+<p>Next we're going to add a page to allow librarians to renew borrowed 
+books. To do this we'll create a form that allows users to enter a date 
+value. We'll seed the field with an initial value 3 weeks from the 
+current date (the normal borrowing period), and add some validation to 
+ensure that the librarian can't enter a date in the past or a date too 
+far in the future. When a valid date has been entered, we'll write it to
+ the current record's <code>BookInstance.due_back</code> field.</p>
+
+<p>The example will use a function-based view and a <code>Form</code> class. The following sections explain how forms work, and the changes you need to make to our ongoing <em>LocalLibrary</em> project.</p>
+
+<h3 id="Form" class="highlight-spanned"><span class="highlight-span">Form</span></h3>
+
+<p>The <code>Form</code> class is the heart of Django's form handling 
+system. It specifies the fields in the form, their layout, display 
+widgets, labels, initial values, valid values, and (once validated) the 
+error messages associated with invalid fields. The class also provides 
+methods for rendering itself in templates using predefined formats 
+(tables, lists, etc.) or for getting the value of any element (enabling 
+fine-grained manual rendering).</p>
+
+<h4 id="Declaring_a_Form">Declaring a Form</h4>
+
+<p>The declaration syntax for a <code>Form</code> is very similar to that for declaring a <code>Model</code>,
+ and shares the same field types (and some similar parameters). This 
+makes sense because in both cases we need to ensure that each field 
+handles the right types of data, is constrained to valid data, and has a
+ description for display/documentation.</p>
+
+<p>To create a <code>Form</code> we import the <code>forms</code> library, derive from the <code>Form</code> class, and declare the form's fields. A very basic form class for our library book renewal form is shown below:</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">from django import forms
+    
+class RenewBookForm(forms.Form):
+&nbsp; &nbsp; renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")<span class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="Form_fields">Form fields</h4>
+
+<p>In this case we have a single <code><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#datefield" class="external external-icon" rel="noopener">DateField</a></code> for entering the renewal date that will render in HTML with a blank value, the default label "<em>Renewal date:</em>", and some helpful usage text: "<em>Enter a date between now and 4 weeks (default 3 weeks).</em>" As none of the other optional arguments are specified the field will accept dates using the <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#django.forms.DateField.input_formats" class="external external-icon" rel="noopener">input_formats</a>: YYYY-MM-DD (2016-11-06), MM/DD/YYYY (02/26/2016), MM/DD/YY (10/25/16), and will be rendered using the default <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#widget" class="external external-icon" rel="noopener">widget</a>: <a href="https://docs.djangoproject.com/en/2.0/ref/forms/widgets/#django.forms.DateInput" class="external external-icon" rel="noopener">DateInput</a>.</p>
+
+<p>There are many other types of form fields, which you will largely 
+recognise from their similarity to the equivalent model field classes: <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#booleanfield" class="external external-icon" rel="noopener"><code>BooleanField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#charfield" class="external external-icon" rel="noopener"><code>CharField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#choicefield" class="external external-icon" rel="noopener"><code>ChoiceField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#typedchoicefield" class="external external-icon" rel="noopener"><code>TypedChoiceField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#datefield" class="external external-icon" rel="noopener"><code>DateField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#datetimefield" class="external external-icon" rel="noopener"><code>DateTimeField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#decimalfield" class="external external-icon" rel="noopener"><code>DecimalField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#durationfield" class="external external-icon" rel="noopener"><code>DurationField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#emailfield" class="external external-icon" rel="noopener"><code>EmailField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#filefield" class="external external-icon" rel="noopener"><code>FileField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#filepathfield" class="external external-icon" rel="noopener"><code>FilePathField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#floatfield" class="external external-icon" rel="noopener"><code>FloatField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#imagefield" class="external external-icon" rel="noopener"><code>ImageField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#integerfield" class="external external-icon" rel="noopener"><code>IntegerField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#genericipaddressfield" class="external external-icon" rel="noopener"><code>GenericIPAddressField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#multiplechoicefield" class="external external-icon" rel="noopener"><code>MultipleChoiceField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#typedmultiplechoicefield" class="external external-icon" rel="noopener"><code>TypedMultipleChoiceField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#nullbooleanfield" class="external external-icon" rel="noopener"><code>NullBooleanField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#regexfield" class="external external-icon" rel="noopener"><code>RegexField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#slugfield" class="external external-icon" rel="noopener"><code>SlugField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#timefield" class="external external-icon" rel="noopener"><code>TimeField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#urlfield" class="external external-icon" rel="noopener"><code>URLField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#uuidfield" class="external external-icon" rel="noopener"><code>UUIDField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#combofield" class="external external-icon" rel="noopener"><code>ComboField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#multivaluefield" class="external external-icon" rel="noopener"><code>MultiValueField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#splitdatetimefield" class="external external-icon" rel="noopener"><code>SplitDateTimeField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#modelmultiplechoicefield" class="external external-icon" rel="noopener"><code>ModelMultipleChoiceField</code></a>, <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#modelchoicefield" class="external external-icon" rel="noopener"><code>ModelChoiceField</code></a>​​​​.</p>
+
+<p>The arguments that are common to most fields are listed below (these have sensible default values):</p>
+
+<ul>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#required" class="external external-icon" rel="noopener">required</a>: If <code>True</code>, the field may not be left blank or given a <code>None</code> value. Fields are required by default, so you would set <code>required=False</code> to allow blank values in the form.</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#label" class="external external-icon" rel="noopener">label</a>: The label to use when rendering the field in HTML. If <a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#label" class="external external-icon" rel="noopener">label</a>
+ is not specified then Django would create one from the field name by 
+capitalising the first letter and replacing underscores with spaces 
+(e.g. <em>Renewal date</em>).</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#label-suffix" class="external external-icon" rel="noopener">label_suffix</a>: By default a colon is displayed after the label (e.g. Renewal date<strong>:</strong>). This argument allows you to specify as different suffix containing other character(s).</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#initial" class="external external-icon" rel="noopener">initial</a>: The initial value for the field when the form is displayed.</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#widget" class="external external-icon" rel="noopener">widget</a>: The display widget to use.</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#help-text" class="external external-icon" rel="noopener">help_text</a> (as seen in the example above): Additional text that can be displayed in forms to explain how to use the field.</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#error-messages" class="external external-icon" rel="noopener">error_messages</a>: A list of error messages for the field. You can override these with your own messages if needed.</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#validators" class="external external-icon" rel="noopener">validators</a>: A list of functions that will be called on the field when it is validated.</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#localize" class="external external-icon" rel="noopener">localize</a>: Enables the localisation of form data input (see link for more information).</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/#disabled" class="external external-icon" rel="noopener">disabled</a>: The field is displayed but its value cannot be edited if this is <code>True</code>. The default is <code>False</code>.</li>
+</ul>
+
+<h4 id="Validation">Validation</h4>
+
+<p>Django provides numerous places where you can validate your data. The
+ easiest way to validate a single field is to override the method <code>clean_<strong>&lt;fieldname&gt;</strong>()</code> for the field you want to check. So for example, we can validate that entered <code>renewal_date</code> values are between now and 4 weeks by implementing <code>clean_<strong>renewal_date</strong>() </code>as shown below.</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">from django import forms
+
+<strong>from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
+import datetime #for checking renewal date range.
+</strong>&nbsp; &nbsp;&nbsp;
+class RenewBookForm(forms.Form):
+&nbsp;&nbsp;&nbsp;&nbsp;renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
+
+<strong>&nbsp; &nbsp; def clean_renewal_date(self):
+&nbsp; &nbsp; &nbsp; &nbsp; data = self.cleaned_data['renewal_date']
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; #Check date is not in past.&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; if data &lt; datetime.date.today():
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; raise ValidationError(_('Invalid date - renewal in past'))
+
+&nbsp; &nbsp; &nbsp; &nbsp; #Check date is in range librarian allowed to change (+4 weeks).
+&nbsp; &nbsp; &nbsp; &nbsp; if data &gt; datetime.date.today() + datetime.timedelta(weeks=4):
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
+
+&nbsp; &nbsp; &nbsp; &nbsp; # Remember to always return the cleaned data.
+&nbsp; &nbsp; &nbsp; &nbsp; return data</strong><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>There are two important things to note. The first is that we get our data using&nbsp;<code>self.cleaned_data['renewal_date']</code>
+ and that we return this data whether or not we change it at the end of 
+the function. This step gets us the data "cleaned" and sanitised of 
+potentially unsafe input&nbsp;using the default validators, and 
+converted into the correct standard type for the data (in this case a 
+Python <code>datetime.datetime</code> object).</p>
+
+<p>The second point is that if a value falls outside our range we raise a&nbsp;<code>ValidationError</code>,
+ specifying the error text that&nbsp;we want to display in the form if 
+an invalid value is entered. The example above also wraps this text in 
+one of&nbsp;<a href="https://docs.djangoproject.com/en/2.0/topics/i18n/translation/" class="external external-icon" rel="noopener">Django's translation functions</a>&nbsp;<code>ugettext_lazy()</code> (imported as&nbsp;<code>_()</code>), which is good practice if you want to translate your site later.</p>
+
+<div class="note">
+<p><strong>Note:</strong> There are numerious other methods and examples for validating forms in&nbsp;<a href="https://docs.djangoproject.com/en/2.0/ref/forms/validation/" class="external external-icon" rel="noopener">Form and field validation</a> (Django docs). For example, in&nbsp;cases where you have multiple fields that depend on each other, you can override the <a href="https://docs.djangoproject.com/en/2.0/ref/forms/api/#django.forms.Form.clean" class="external external-icon" rel="noopener">Form.clean()</a> function and again raise a&nbsp;<code>ValidationError</code>.</p>
+</div>
+
+<p>That's all we need for the form in this example!</p>
+
+<h4 id="Copy_the_Form">Copy the Form</h4>
+
+<p>Create and open the&nbsp;file <strong>locallibrary/catalog/forms.py</strong>&nbsp;and copy the entire code listing from the previous block into it.</p>
+
+<h3 id="URL_Configuration" class="highlight-spanned"><span class="highlight-span">URL Configuration</span></h3>
+
+<p>Before we create our view, let's add a URL configuration for the <em>renew-books</em> page. Copy the following configuration to the bottom of <strong>locallibrary/catalog/urls.py</strong>.</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">urlpatterns += [   
+    path('book/&lt;uuid:pk&gt;/renew/', views.renew_book_librarian, name='renew-book-librarian'),
+]<span class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>The URL configuration will redirect URLs with the format <strong>/catalog/book/<em>&lt;bookinstance id&gt;</em>/renew/</strong> to the function named&nbsp;<code>renew_book_librarian()</code> in <strong>views.py</strong>, and send the <code>BookInstance</code> id as the parameter named <code>pk</code>. The pattern only matches if <code>pk</code> is a correctly formatted <code>uuid</code>.</p>
+
+<div class="note">
+<p><strong>Note</strong>: We can name our captured URL data "<code>pk</code>"
+ anything we like, because we have complete control over the view 
+function (we're not using a generic detail view&nbsp;class that expects 
+parameters with a certain name). However <code>pk</code>, short for "primary key", is a reasonable convention to use!</p>
+</div>
+
+<h3 id="View" class="highlight-spanned"><span class="highlight-span">View</span></h3>
+
+<p>As discussed in the <a href="#django_form_handling_process">Django form handling process</a>
+ above, the view has to render the default form&nbsp;when it is first 
+called and then either&nbsp;re-render it with error messages if the data
+ is invalid, or process the data and redirect to a new page if the data 
+is valid. In order to perform these different actions, the view has to 
+be able to know whether it is being called for the first time to render 
+the default form, or a subsequent time to validate data.&nbsp;</p>
+
+<p>For forms that use a <code>POST</code> request to submit information to the server, the most common pattern is for the view to test against the <code>POST</code> request type (<code>if request.method == 'POST':</code>) to identify form validation requests and <code>GET</code>&nbsp;(using an <code>else</code>&nbsp;condition) to identify&nbsp;the initial form creation&nbsp;request. If you want to submit your data using a <code>GET</code>
+ request then a&nbsp;typical approach for identifying whether this is 
+the first or subsequent view invocation is to read the form data (e.g. 
+to read a hidden value in the form).</p>
+
+<p>The book renewal process will be writing to our database, so by convention we use the <code>POST</code> request approach. The code fragment below shows the (very standard) pattern for this sort of function view.&nbsp;</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+import datetime
+
+from .forms import RenewBookForm
+
+def renew_book_librarian(request, pk):
+&nbsp; &nbsp; book_inst=get_object_or_404(BookInstance, pk = pk)
+
+&nbsp; &nbsp; # If this is a POST request then process the Form data
+<strong>&nbsp; &nbsp; if request.method == 'POST':</strong>
+
+&nbsp; &nbsp; &nbsp; &nbsp; # Create a form instance and populate it with data from the request (binding):
+&nbsp; &nbsp; &nbsp; &nbsp; form = RenewBookForm(request.POST)
+
+&nbsp; &nbsp; &nbsp; &nbsp; # Check if the form is valid:
+&nbsp; &nbsp; &nbsp; &nbsp; <strong>if form.is_valid():</strong>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; book_inst.due_back = form.cleaned_data['renewal_date']
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; book_inst.save()
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # redirect to a new URL:
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return HttpResponseRedirect(reverse('all-borrowed') )
+
+&nbsp; &nbsp; # If this is a GET (or any other method) create the default form.
+<strong>&nbsp; &nbsp; else:</strong>
+&nbsp; &nbsp; &nbsp; &nbsp; proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+&nbsp; &nbsp; &nbsp; &nbsp; form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
+
+&nbsp; &nbsp; return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>First we import our form (<code>RenewBookForm</code>) and a number of other useful objects/methods used in the body of the view function:</p>
+
+<ul>
+ <li><code><a href="https://docs.djangoproject.com/en/2.0/topics/http/shortcuts/#get-object-or-404" class="external external-icon" rel="noopener">get_object_or_404()</a></code>: Returns a specified object from a model based on its primary key value, and raises an <code>Http404</code> exception (not found) if the record does not exist.&nbsp;</li>
+ <li><code><a href="https://docs.djangoproject.com/en/2.0/ref/request-response/#django.http.HttpResponseRedirect" class="external external-icon" rel="noopener">HttpResponseRedirect</a></code>:&nbsp;This creates a redirect to a specified URL (HTTP status code 302).&nbsp;</li>
+ <li><code><a href="https://docs.djangoproject.com/en/2.0/ref/urlresolvers/#django.urls.reverse" class="external external-icon" rel="noopener">reverse()</a></code>: This generates a URL from a URL configuration name and a set of arguments. It is the Python equivalent of the <code>url</code>&nbsp;tag that we've been using in our templates.</li>
+ <li><code><a href="https://docs.python.org/3/library/datetime.html" class="external external-icon" rel="noopener">datetime</a></code>: A Python library for manipulating dates and times.&nbsp;</li>
+</ul>
+
+<p>In the view we first use the <code>pk</code> argument in&nbsp;<code>get_object_or_404()</code> to get the current <code>BookInstance</code>&nbsp;(if this does not exist, the view will immediately exit and the page will display a "not found" error). If this is <em>not </em>a <code>POST</code> request (handled by the <code>else</code> clause) then we create the default form passing in an <code>initial</code> value for the&nbsp;<code>renewal_date</code> field (as shown in bold below, this is 3 weeks from the current date).&nbsp;</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">book_inst=get_object_or_404(BookInstance, pk = pk) &nbsp; &nbsp;
+
+&nbsp; &nbsp; # If this is a GET (or any other method) create the default form
+&nbsp; &nbsp; <strong>else:</strong>
+&nbsp; &nbsp; &nbsp; &nbsp; proposed_renewal_date = datetime.date.today() + datetime.timedelta(<strong>weeks=3</strong>)
+&nbsp; &nbsp; &nbsp; &nbsp; <strong>form = RenewBookForm(initial={'</strong>renewal_date<strong>': </strong>proposed_renewal_date<strong>,})</strong>
+
+&nbsp; &nbsp; return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>After creating the form, we call <code>render()</code> to create the 
+HTML page, specifying the template and a context that contains our form.
+ In this case the context also contains our <code>BookInstance</code>, which we'll use in the template to provide information about the book we're renewing.</p>
+
+<p>If however this is a <code>POST</code> request, then we create our <code>form</code>
+ object and populate it with data from the request. This process is 
+called "binding" and allows us to validate the form. We then check if 
+the form is valid, which runs all the validation code on all of the 
+fields — including both the generic code to check that our date field is
+ actually a valid date and our specific form's&nbsp;<code>clean_renewal_date()</code> function to check the date is in the right range.&nbsp;</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">&nbsp; &nbsp; book_inst=get_object_or_404(BookInstance, pk = pk)
+
+&nbsp; &nbsp; # If this is a POST request then process the Form data
+&nbsp; &nbsp; if request.method == 'POST':
+
+&nbsp; &nbsp; &nbsp; &nbsp; # Create a form instance and populate it with data from the request (binding):
+<strong>&nbsp; &nbsp; &nbsp; &nbsp; form = RenewBookForm(request.POST)</strong>
+
+&nbsp; &nbsp; &nbsp; &nbsp; # Check if the form is valid:
+&nbsp; &nbsp; &nbsp; &nbsp; if form.is_valid():
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; book_inst.due_back = form.cleaned_data['renewal_date']
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; book_inst.save()
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # redirect to a new URL:
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return HttpResponseRedirect(reverse('all-borrowed') )
+
+&nbsp; &nbsp; return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>If the form is not valid we call <code>render()</code> again, but this time the form value passed in the context will include error messages.&nbsp;</p>
+
+<p>If the form is valid, then we can start to use the data, accessing it through the&nbsp;<code>form.cleaned_data</code>&nbsp;attribute (e.g.&nbsp;<code>data = form.cleaned_data['renewal_date']</code>). Here we just save the data into the <code>due_back</code> value of the associated <code>BookInstance</code> object.</p>
+
+<div class="warning">
+<p><strong>Important</strong>: While you can also access the form&nbsp;data directly through the request (for example&nbsp;<code>request.POST['renewal_date']</code> or&nbsp;<code>request.GET['renewal_date']</code>
+ (if using a GET request) this is NOT recommended. The cleaned data is 
+sanitised, validated, and converted into Python-friendly types.</p>
+</div>
+
+<p>The final step in the form-handling part of the view is to redirect 
+to another page, usually a "success" page. In this case we use&nbsp;<code>HttpResponseRedirect</code>&nbsp;and <code>reverse()</code>&nbsp;to redirect to the view named <code>'all-borrowed'</code> (this was created as the "challenge" in&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/authentication_and_sessions#Challenge_yourself">Django Tutorial Part 8: User authentication and permissions</a>). If you didn't create that page consider redirecting to the home page at URL '/').</p>
+
+<p>That's everything needed for the form handling itself, but we still 
+need to restrict access to the view to librarians. We should probably 
+create a new permission in <code>BookInstance</code> ("<code>can_renew</code>"), but to keep things simple here we&nbsp;just use the <code>@permission_required</code>&nbsp;function decorator with&nbsp;our existing&nbsp;<code>can_mark_returned</code> permission.</p>
+
+<p>The final view is therefore as shown below. Please copy this into the bottom of <strong>locallibrary/catalog/views.py</strong>.</p>
+
+<pre><strong>from django.contrib.auth.decorators import permission_required</strong>
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+import datetime
+
+from .forms import RenewBookForm
+
+<strong>@permission_required('catalog.<code>can_mark_returned</code>')</strong>
+def renew_book_librarian(request, pk):
+&nbsp; &nbsp; """
+&nbsp; &nbsp; View function for renewing a specific BookInstance by librarian
+&nbsp; &nbsp; """
+&nbsp; &nbsp; book_inst=get_object_or_404(BookInstance, pk = pk)
+
+&nbsp; &nbsp; # If this is a POST request then process the Form data
+&nbsp; &nbsp; if request.method == 'POST':
+
+&nbsp; &nbsp; &nbsp; &nbsp; # Create a form instance and populate it with data from the request (binding):
+&nbsp; &nbsp; &nbsp; &nbsp; form = RenewBookForm(request.POST)
+
+&nbsp; &nbsp; &nbsp; &nbsp; # Check if the form is valid:
+&nbsp; &nbsp; &nbsp; &nbsp; if form.is_valid():
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; book_inst.due_back = form.cleaned_data['renewal_date']
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; book_inst.save()
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # redirect to a new URL:
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return HttpResponseRedirect(reverse('all-borrowed') )
+
+&nbsp; &nbsp; # If this is a GET (or any other method) create the default form.
+&nbsp; &nbsp; else:
+&nbsp; &nbsp; &nbsp; &nbsp; proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+&nbsp; &nbsp; &nbsp; &nbsp; form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
+
+&nbsp; &nbsp; return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+</pre>
+
+<h3 id="The_template" class="highlight-spanned"><span class="highlight-span">The template</span></h3>
+
+<p>Create the template referenced in the view (<strong>/catalog/templates/catalog/book_renew_librarian.html</strong>) and copy the code below into it:</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html">{% extends "base_generic.html" %}
+{% block content %}
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Renew: {{bookinst.book.title}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>Borrower: {{bookinst.borrower}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+    &lt;p{% if bookinst.is_overdue %} class="text-danger"{% endif %}&gt;Due date: {{bookinst.due_back}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>post<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        {% csrf_token %}
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">&gt;</span></span>
+        {{ form }}
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Submit<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+
+{% endblock %}<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Most of this will be completely familiar from previous tutorials. We 
+extend the base template and then redefine the content block. We are 
+able to reference <code>{{bookinst}}</code> (and its variables) because it was passed into the context object in the <code>render()</code> function, and we use these to list the book title, borrower and the original due date.</p>
+
+<p>The form code is relatively simple. First we declare the <code>form</code> tags, specifying where the form is to be submitted (<code>action</code>) and the <code>method</code> for submitting the data (in this case an "HTTP POST") — if you recall the <a href="#HTML_forms">HTML Forms</a> overview at the top of the page, an empty <code>action</code>
+ as shown, means that the form data will be posted back to the current 
+URL of the page (which is what we want!). Inside the tags we define the <code>submit</code> input, which a user can press to submit the data. The <code>{% csrf_token %}</code> added just inside the form tags is part of Django's cross-site forgery protection.</p>
+
+<div class="note">
+<p><strong>Note:</strong> Add the <code>{% csrf_token %}</code> to every Django template you create that uses <code>POST</code> to submit data. This will reduce the chance of forms being hijacked by malicious users.</p>
+</div>
+
+<p>All that's left is the <code>{{form}}</code> template variable, which
+ we passed to the template in the context dictionary. Perhaps 
+unsurprisingly, when used as shown this provides the default rendering 
+of all the form fields, including their labels, widgets, and help text —
+ the rendering is as shown below:</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>id_renewal_date<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Renewal date:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>id_renewal_date<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>renewal_date<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2016-11-08<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span> <span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>helptext<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Enter date between now and 4 weeks (default 3 weeks).<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<div class="note">
+<p><strong>Note:</strong> It is perhaps not obvious because we only have
+ one field, but by default every field is defined in its own table row 
+(which is why the variable is inside <code>table </code>tags above).​​​​​​ This same rendering is provided if you reference the template variable <code>{{ form.as_table }}</code>.</p>
+</div>
+
+<p>If you were to enter an invalid date, you'd additionally get a list of the errors rendered in the page (shown in bold below).</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>id_renewal_date<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Renewal date:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>errorlist<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>Invalid date - renewal in past<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>id_renewal_date<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>renewal_date<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2015-11-08<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token punctuation">/&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span> <span class="token punctuation">/&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>helptext<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Enter date between now and 4 weeks (default 3 weeks).<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="Other_ways_of_using_form_template_variable">Other ways of using form template variable</h4>
+
+<p>Using <code>{{form}}</code> as shown above, each field is rendered as a table row. You can also render each field as a list item (using <code>{{form.as_ul}}</code> ) or as a paragraph (using <code>{{form.as_p}}</code>).</p>
+
+<p>What is even more cool is that you can have complete control over the
+ rendering of each part of the form, by indexing its properties using 
+dot notation. So for example we can access a number of separate items 
+for our <code>renewal_date</code> field:</p>
+
+<ul>
+ <li><code>{{form.renewal_date}}:</code> The whole field.</li>
+ <li><code>{{form.renewal_date.errors}}</code>: The list of errors.</li>
+ <li><code>{{form.renewal_date.id_for_label}}</code>: The id of the label.</li>
+ <li><code>{{form.renewal_date.help_text}}</code>: The field help text.</li>
+ <li>etc!</li>
+</ul>
+
+<p>For more examples of how to manually render forms in templates and dynamically loop over template fields, see <a href="https://docs.djangoproject.com/en/2.0/topics/forms/#rendering-fields-manually" class="external external-icon" rel="noopener">Working with forms &gt; Rendering fields manually</a> (Django docs).</p>
+
+<h3 id="Testing_the_page" class="highlight-spanned"><span class="highlight-span">Testing the page</span></h3>
+
+<p>If you accepted the "challenge" in <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/authentication_and_sessions#Challenge_yourself">Django Tutorial Part 8: User authentication and permissions</a>
+ you'll have a list of all books on loan in the library, which is only 
+visible to library staff. We can add a link to our renew page next to 
+each item using the template code below.</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html">{% if perms.catalog.can_mark_returned %}- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{% url <span class="token punctuation">'</span>renew-book-librarian<span class="token punctuation">'</span> bookinst.id %}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Renew<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>  {% endif %}<span class="line-numbers-rows"><span></span></span></code></pre>
+
+<div class="note">
+<p><strong>Note</strong>: Remember that your test login will need to have the permission "<code>catalog.can_mark_returned</code>" in order to access the renew book page (perhaps use your superuser account).</p>
+</div>
+
+<p>You can alternatively manually construct a test URL like this — <a href="http://127.0.0.1:8000/catalog/book/%3Cbookinstance%20id%3E/renew/" class="external external-icon" rel="noopener">http://127.0.0.1:8000/catalog/book/<em>&lt;bookinstance_id&gt;</em>/renew/</a> (a valid bookinstance id can be obtained by navigating to a book detail page in your library, and copying the <code>id</code> field).</p>
+
+<h3 id="What_does_it_look_like" class="highlight-spanned"><span class="highlight-span">What does it look like?</span></h3>
+
+<p>If you are successful, the default form will look like this:</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/forms_example_renew_default.png" alt="" style="border-style: solid; border-width: 1px; display: block; height: 292px; margin: 0px auto; width: 680px;"></p>
+
+<p>The form with an invalid value entered, will look like this:</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/forms_example_renew_invalid.png" alt="" style="border-style: solid; border-width: 1px; display: block; height: 290px; margin: 0px auto; width: 658px;"></p>
+
+<p>The list of all books with renew links will look like this:</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/forms_example_renew_allbooks.png" alt="" style="border-style: solid; border-width: 1px; display: block; height: 256px; margin: 0px auto; width: 613px;"></p>
+
+<h2 id="ModelForms">ModelForms</h2>
+
+<p>Creating a <code>Form</code> class using the approach described above
+ is very flexible, allowing you to create whatever sort of form page you
+ like and associate it with any model or models.</p>
+
+<p>However if you just need a form to map the fields of a <em>single</em>
+ model then your model will already define most of the information that 
+you need in your form: fields, labels, help text, etc. Rather than 
+recreating the model definitions in your form, it is easier to use the <a href="https://docs.djangoproject.com/en/2.0/topics/forms/modelforms/" class="external external-icon" rel="noopener">ModelForm</a> helper class to create the form from your model. This <code>ModelForm</code> can then be used within your views in exactly the same way as an ordinary <code>Form</code>.</p>
+
+<p>A basic <code>ModelForm</code> containing the same field as our original <code>RenewBookForm</code> is shown below. All you need to do to create the form is add <code>class Meta</code> with the associated <code>model</code> (<code>BookInstance</code>) and a list of the model <code>fields</code> to include in the form (you can include all fields using <code>fields = '__all__'</code>, or you can use <code>exclude</code> (instead of <code>fields</code>) to specify the fields <em>not </em>to include from the model).</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">from django.forms import ModelForm
+from .models import BookInstance
+
+class RenewBookModelForm(ModelForm):
+<strong>    class Meta:
+        model = BookInstance
+        fields = ['due_back',]</strong><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<div class="note">
+<p><strong>Note</strong>: This might not look like all that much simpler than just using a <code>Form</code>
+ (and it isn't in this case, because we just have one field). However if
+ you have a lot of fields, it can reduce the amount of code quite 
+significantly!</p>
+</div>
+
+<p>The rest of the information comes from the model field definitions 
+(e.g. labels, widgets, help text, error messages). If these aren't quite
+ right, then we can override them in our <code>class Meta</code>, 
+specifying a dictionary containing the field to change and its new 
+value. For example, in this form we might want a label for our field of "<em>Renewal date</em>" (rather than the default based on the field name: <em>Due date</em>), and we also want our help text to be specific to this use case. The <code>Meta</code> below shows you how to override these fields, and you can similarly set <code>widgets</code> and <code>error_messages</code> if the defaults aren't sufficient.</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">class Meta:
+    model = BookInstance
+    fields = ['due_back',]
+<strong>    labels = { 'due_back': _('Renewal date'), }
+    help_texts = { 'due_back': _('Enter a date between now and 4 weeks (default 3).'), } </strong><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>To add validation you can use the same approach as for a normal <code>Form</code> — you define a function named <code>clean_<em>field_name</em>()</code> and raise <code>ValidationError</code> exceptions for invalid values. The only difference with respect to our original form is that the model field is named <code>due_back</code>&nbsp;and not "<code>renewal_date</code>".</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">from django.forms import ModelForm
+from .models import BookInstance
+
+class RenewBookModelForm(ModelForm):
+<strong>&nbsp; &nbsp; def clean_due_back(self):
+ &nbsp; &nbsp; &nbsp; data = self.cleaned_data['due_back']
+ &nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp;      #Check date is not in past.
+&nbsp; &nbsp; &nbsp; &nbsp;if data &lt; datetime.date.today():
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; raise ValidationError(_('Invalid date - renewal in past'))
+
+ &nbsp; &nbsp; &nbsp; #Check date is in range librarian allowed to change (+4 weeks)
+ &nbsp; &nbsp; &nbsp; if data &gt; datetime.date.today() + datetime.timedelta(weeks=4):
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
+
+ &nbsp; &nbsp; &nbsp; # Remember to always return the cleaned data.
+ &nbsp; &nbsp; &nbsp; return data
+</strong>
+    class Meta:
+        model = BookInstance
+        fields = ['due_back',]
+        labels = { 'due_back': _('Renewal date'), }
+        help_texts = { 'due_back': _('Enter a date between now and 4 weeks (default 3).'), }<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>The class&nbsp;<code>RenewBookModelForm</code> below is now functionally equivalent to our original&nbsp;<code>RenewBookForm</code>. You could import and use it wherever you currently use <code>RenewBookForm</code>.</p>
+
+<h2 id="Generic_editing_views">Generic editing views</h2>
+
+<p>The form handling algorithm we used in our function view example 
+above represents an extremely common pattern in form editing views. 
+Django abstracts much of this "boilerplate" for you, by creating <a href="https://docs.djangoproject.com/en/2.0/ref/class-based-views/generic-editing/" class="external external-icon" rel="noopener">generic editing views</a>
+ for creating, editing, and deleting views based on models. Not only do 
+these handle the "view" behaviour, but they automatically create the 
+form class (a <code>ModelForm</code>) for you from the model.</p>
+
+<div class="note">
+<p><strong>Note: </strong>In addition to the editing views described here, there is also a <a href="https://docs.djangoproject.com/en/2.0/ref/class-based-views/generic-editing/#formview" class="external external-icon" rel="noopener">FormView</a>
+ class, which lies somewhere between our function view and the other 
+generic views in terms of "flexibility" vs "coding effort". Using <code>FormView</code> you still need to create your <code>Form</code>,
+ but you don't have to implement all of the standard form-handling 
+pattern. Instead you just have to provide an implementation of the 
+function that will be called once the submitted is known to be be valid.</p>
+</div>
+
+<p>In this section we're going to use generic editing views to create pages to add functionality to create, edit, and delete <code>Author</code>
+ records from our library — effectively providing a basic 
+reimplementation of parts of the Admin site (this could be useful if you
+ need to offer admin functionality in a more flexible way that can be 
+provided by the admin site).</p>
+
+<h3 id="Views" class="highlight-spanned"><span class="highlight-span">Views</span></h3>
+
+<p>Open the views file (<strong>locallibrary/catalog/views.py</strong>) and append the following code block to the bottom of it:</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Author
+
+class AuthorCreate(CreateView):
+    model = Author
+    fields = '__all__'
+    initial={'date_of_death':'05/01/2018',}
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    fields = ['first_name','last_name','date_of_birth','date_of_death']
+
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('authors')<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>As you can see, to create the views you need to derive from <code>CreateView</code>, <code>UpdateView</code>, and <code>DeleteView</code> (respectively) and then define the associated model.</p>
+
+<p>For the "create" and "update" cases you also need to specify the fields to display in the form (using in same syntax as for <code>ModelForm</code>).
+ In this case we show both the syntax to display "all" fields, and how 
+you can list them individually. You can also specify initial values for 
+each of the fields using a dictionary of <em>field_name</em>/<em>value</em>
+ pairs (here we arbitrarily set the date of death for demonstration 
+purposes — you might want to remove that!). By default these views will 
+redirect on success to a page displaying the newly created/edited model 
+item, which in our case will be the author detail view we created in a 
+previous tutorial. You can specify an alternative redirect location by 
+explicitly declaring parameter <code>success_url</code> (as done for the <code>AuthorDelete</code> class).</p>
+
+<p>The <code>AuthorDelete</code> class doesn't need to display any of the fields, so these don't need to be specified. You do however need to specify the <code>success_url</code>, because there is no obvious default value for Django to use. In this case we use the <code><a href="https://docs.djangoproject.com/en/2.0/ref/urlresolvers/#reverse-lazy" class="external external-icon" rel="noopener">reverse_lazy()</a></code> function to redirect to our author list after an author has been deleted — <code>reverse_lazy()</code> is a lazily executed version of <code>reverse()</code>, used here because we're providing a&nbsp;URL to a class-based view attribute.</p>
+
+<h3 id="Templates" class="highlight-spanned"><span class="highlight-span">Templates</span></h3>
+
+<p>The "create" and "update" views use the same template by default, which will be named after your model: <em>model_name</em><strong>_form.html</strong> (you can change the suffix to something other than <strong>_form</strong> using the <code>template_name_suffix</code> field in your view, e.g. <code>template_name_suffix = '_other_suffix'</code>)</p>
+
+<p>Create the template file <strong>locallibrary/catalog/templates/catalog/author_form.html</strong> and copy in the text below.</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html">{% extends "base_generic.html" %}
+
+{% block content %}
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>post<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    {% csrf_token %}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">&gt;</span></span>
+    {{ form.as_table }}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Submit<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+    
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+{% endblock %}<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>This is similar to our previous forms, and renders the fields using a table. Note also how again we declare the <code>{% csrf_token %}</code> to ensure that our forms are resistant to CSRF attacks.</p>
+
+<p>The "delete" view expects to find a template named with the format <em>model_name</em><strong>_confirm_delete.html</strong> (again, you can change the suffix using <code>template_name_suffix</code> in your view). Create the template file <strong>locallibrary/catalog/templates/catalog/author_confirm_delete</strong><strong>.html</strong> and copy in the text below.</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html">{% extends "base_generic.html" %}
+
+{% block content %}
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Delete Author<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>Are you sure you want to delete the author: {{ author }}?<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  {% csrf_token %}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Yes, delete.<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+
+{% endblock %}<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="URL_configurations" class="highlight-spanned"><span class="highlight-span">URL configurations</span></h3>
+
+<p>Open your URL configuration file (<strong>locallibrary/catalog/urls.py</strong>) and add the following configuration to the bottom of the file:</p>
+
+<pre class="brush: python line-numbers  language-python"><code class=" language-python">urlpatterns += [  
+&nbsp; &nbsp; path('author/create/', views.AuthorCreate.as_view(), name='author_create'),
+&nbsp; &nbsp; path('author/&lt;int:pk&gt;/update/', views.AuthorUpdate.as_view(), name='author_update'),
+&nbsp; &nbsp; path('author/&lt;int:pk&gt;/delete/', views.AuthorDelete.as_view(), name='author_delete'),
+]<span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>There is nothing particularly new here! You can see that the views are classes, and must hence be called via <code>.as_view()</code>, and you should be able to recognise the URL patterns in each case. We must use <code>pk</code> as the name for our captured primary key value, as this is the parameter name expected by the view classes.</p>
+
+<p>The author create, update, and delete pages are now ready to test (we
+ won't bother hooking them into the site sidebar in this case, although 
+you can do so if you wish).</p>
+
+<div class="note">
+<p><strong>Note</strong>: Observant users will have noticed that we 
+didn't do anything to prevent unauthorised users from accessing the 
+pages! We leave that as an exercise for you (hint: you could use the <code>PermissionRequiredMixin</code> and either create a new permission or reuse our <code>can_mark_returned</code> permission).</p>
+</div>
+
+<h3 id="Testing_the_page_2" class="highlight-spanned"><span class="highlight-span">Testing the page</span></h3>
+
+<p>First login to the site with an account that has whatever permissions you decided are needed to access the author editing pages.</p>
+
+<p>Then navigate to the author create page: <a href="http://127.0.0.1:8000/catalog/author/create/" class="external external-icon" rel="noopener">http://127.0.0.1:8000/catalog/author/create/</a>, which should look like the screenshot below.</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/forms_example_create_author.png" alt="Form Example: Create Author" style="border-style: solid; border-width: 1px; display: block; height: 184px; margin: 0px auto; width: 645px;"></p>
+
+<p>Enter values for the fields and then press <strong>Submit</strong> to save the author record. You should now be taken to a detail view for your new author, with a&nbsp;URL of something like <em>http://127.0.0.1:8000/catalog/author/10</em>.</p>
+
+<p>You can test editing records by appending <em>/update/</em> to the end of the detail view URL (e.g. <em>http://127.0.0.1:8000/catalog/author/10/update/</em>) — we don't show a screenshot, because it looks just like the "create" page!</p>
+
+<p>Last of all we can delete the page, by appending delete to the end of the author detail-view URL (e.g. <em>http://127.0.0.1:8000/catalog/author/10/delete/</em>). Django should display the delete page shown below. Press <strong>Yes, delete.</strong> to remove the record and be taken to the list of all authors.</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/forms_example_delete_author.png" alt="" style="border-style: solid; border-width: 1px; display: block; height: 194px; margin: 0px auto; width: 561px;"></p>
+
+<p>&nbsp;</p>
+
+<h2 id="Challenge_yourself">Challenge yourself</h2>
+
+<p>Create some forms to create, edit and delete <code>Book</code> records. You can use exactly the same structure as for <code>Authors</code>. If your <strong>book_form.html</strong> template is just a copy-renamed version of the <strong>author_form.html</strong> template, then the new "create book" page will look like the screenshot below:</p>
+
+<p><img src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/forms_example_create_book.png" alt="" style="border-style: solid; border-width: 1px; display: block; height: 521px; margin: 0px auto; width: 595px;"></p>
+
+<ul>
+</ul>
+
+<h2 id="Summary">Summary</h2>
+
+<p>Creating and handling forms can be a complicated process! Django 
+makes it much easier by providing programmatic mechanisms to declare, 
+render and validate forms. Furthermore, Django provides generic form 
+editing views that can do <em>almost all</em> the work to define pages that can create, edit, and delete records associated with a single model instance.</p>
+
+<p>There is a lot more that can be done with forms (check out our See 
+also list below), but you should now understand how to add basic forms 
+and form-handling code to your own websites.</p>
+
+<h2 id="See_also">See also</h2>
+
+<ul>
+ <li><a href="https://docs.djangoproject.com/en/2.0/topics/forms/" class="external external-icon" rel="noopener">Working with forms</a> (Django docs)</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/intro/tutorial04/#write-a-simple-form" class="external external-icon" rel="noopener">Writing your first Django app, part 4 &gt; Writing a simple form</a> (Django docs)</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/api/" class="external external-icon" rel="noopener">The Forms API</a>&nbsp;(Django docs)</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/fields/" class="external external-icon" rel="noopener">Form fields</a> (Django docs)&nbsp;</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/forms/validation/" class="external external-icon" rel="noopener">Form and field validation</a> (Django docs)</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/topics/class-based-views/generic-editing/" class="external external-icon" rel="noopener">Form handling with class-based views</a> (Django docs)</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/topics/forms/modelforms/" class="external external-icon" rel="noopener">Creating forms from models</a> (Django docs)</li>
+ <li><a href="https://docs.djangoproject.com/en/2.0/ref/class-based-views/generic-editing/" class="external external-icon" rel="noopener">Generic editing views</a> (Django docs)</li>
+</ul>
+
+<p></p><div class="prevnext">
+    <div><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/authentication_and_sessions" style="float: left; width: 20%; text-align: left;"><span style="display: inline-block; background: #eaeff2; border-radius: 4px; box-shadow: inset 0 -1px #bbbfc2; color: #4d4353; padding: 0.3em 0.8em;"><i class="icon-arrow-left"></i> Previous </span></a><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django" style="float: left; width: 60%; text-align: center;"><span style="display: inline-block; background: #eaeff2; border-radius: 4px; box-shadow: inset 0 -1px #bbbfc2; color: #4d4353; padding: 0.3em 0.8em;"><i class="icon-arrow-up"></i> Overview: Django</span></a><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing" style="width: 20%; float: right; text-align: right;"><span style="display: inline-block; background: #eaeff2; border-radius: 4px; box-shadow: inset 0 -1px #bbbfc2; color: #4d4353; padding: 0.3em 0.8em;"> Next  <i class="icon-arrow-right"></i></span></a></div>
+    <p>&nbsp;</p>
+</div><p></p>
+
+<p>&nbsp;</p>
+
+<h2 id="In_this_module">In this module</h2>
+
+<ul>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Introduction">Django introduction</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment">Setting up a Django development environment</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website">Django Tutorial: The Local Library website</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/skeleton_website">Django Tutorial Part 2: Creating a skeleton website</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models">Django Tutorial Part 3: Using models</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Admin_site">Django Tutorial Part 4: Django admin site</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page">Django Tutorial Part 5: Creating our home page</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views">Django Tutorial Part 6: Generic list and detail views</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Sessions">Django Tutorial Part 7: Sessions framework</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication">Django Tutorial Part 8: User authentication and permissions</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms">Django Tutorial Part 9: Working with forms</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing">Django Tutorial Part 10: Testing a Django web application</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment">Django Tutorial Part 11: Deploying Django to production</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/web_application_security">Django web application security</a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/django_assessment_blog">DIY Django mini blog</a></li>
+</ul>
+
+<p>&nbsp;</p>
+                  
+                
+              </article>
+
+              <!-- contributors -->
+              <div class="wiki-block contributors">
+                <h2 class="offscreen">Document Tags and Contributors</h2>
+                
+                
+  <div class="tag-attach-list contributors-sub">
+    <svg class="icon icon-tags" xmlns="http://www.w3.org/2000/svg" width="30" height="28" viewBox="0 0 30 28" aria-hidden="true">
+    <path d="M7 7c0-1.109-.891-2-2-2s-2 .891-2 2 .891 2 2 2 2-.891 2-2zm16.672 9c0 .531-.219 1.047-.578 1.406l-7.672 7.688c-.375.359-.891.578-1.422.578s-1.047-.219-1.406-.578L1.422 13.906C.625 13.125 0 11.609 0 10.5V4c0-1.094.906-2 2-2h6.5c1.109 0 2.625.625 3.422 1.422l11.172 11.156c.359.375.578.891.578 1.422zm6 0c0 .531-.219 1.047-.578 1.406l-7.672 7.688a2.08 2.08 0 0 1-1.422.578c-.812 0-1.219-.375-1.75-.922l7.344-7.344c.359-.359.578-.875.578-1.406s-.219-1.047-.578-1.422L14.422 3.422C13.625 2.625 12.11 2 11 2h3.5c1.109 0 2.625.625 3.422 1.422l11.172 11.156c.359.375.578.891.578 1.422z"></path>
+</svg>
+    <strong>Tags:</strong>&nbsp;
+    <ul class="tags tags-small">
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Beginner" rel="nofollow">Beginner</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/CodingScripting" rel="nofollow">CodingScripting</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/django" rel="nofollow">django</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Django%20Forms" rel="nofollow">Django Forms</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Forms" rel="nofollow">Forms</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/HTML%20forms" rel="nofollow">HTML forms</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Learn" rel="nofollow">Learn</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/server%20side" rel="nofollow">server side</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Tutorial" rel="nofollow">Tutorial</a></li>
+      
+    </ul>
+  </div>
+
+
+                
+                  <div class="contributors-sub">
+                    <svg class="icon icon-group" xmlns="http://www.w3.org/2000/svg" width="30" height="28" viewBox="0 0 30 28" aria-hidden="true">
+    <path d="M9.266 14a5.532 5.532 0 0 0-4.141 2H3.031C1.468 16 0 15.25 0 13.516 0 12.25-.047 8 1.937 8c.328 0 1.953 1.328 4.062 1.328.719 0 1.406-.125 2.078-.359A7.624 7.624 0 0 0 7.999 10c0 1.422.453 2.828 1.266 4zM26 23.953C26 26.484 24.328 28 21.828 28H8.172C5.672 28 4 26.484 4 23.953 4 20.422 4.828 15 9.406 15c.531 0 2.469 2.172 5.594 2.172S20.063 15 20.594 15C25.172 15 26 20.422 26 23.953zM10 4c0 2.203-1.797 4-4 4S2 6.203 2 4s1.797-4 4-4 4 1.797 4 4zm11 6c0 3.313-2.688 6-6 6s-6-2.688-6-6 2.688-6 6-6 6 2.688 6 6zm9 3.516C30 15.25 28.531 16 26.969 16h-2.094a5.532 5.532 0 0 0-4.141-2A7.066 7.066 0 0 0 22 10a7.6 7.6 0 0 0-.078-1.031A6.258 6.258 0 0 0 24 9.328C26.109 9.328 27.734 8 28.062 8c1.984 0 1.937 4.25 1.937 5.516zM28 4c0 2.203-1.797 4-4 4s-4-1.797-4-4 1.797-4 4-4 4 1.797 4 4z"></path>
+</svg>
+                    <strong>Contributors to this page:</strong>
+                    
+        <a href="https://developer.mozilla.org/en-US/profiles/hirosan">hirosan</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/shyam-sitaula">shyam-sitaula</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/hamishwillee">hamishwillee</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/chrisdavidmills">chrisdavidmills</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/stephaniehobson">stephaniehobson</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/aarondev8917">aarondev8917</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/KadirTopal">KadirTopal</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/alanypz">alanypz</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/sunqingyao">sunqingyao</a>
+    
+                  </div>
+                
+
+                
+                  <div class="contributors-sub">
+                    <svg class="icon icon-clock" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M14 8.5v7c0 .281-.219.5-.5.5h-5a.494.494 0 0 1-.5-.5v-1c0-.281.219-.5.5-.5H12V8.5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zm6.5 5.5c0-4.688-3.813-8.5-8.5-8.5S3.5 9.313 3.5 14s3.813 8.5 8.5 8.5 8.5-3.813 8.5-8.5zm3.5 0c0 6.625-5.375 12-12 12S0 20.625 0 14 5.375 2 12 2s12 5.375 12 12z"></path>
+</svg>
+                    <strong>Last updated by:</strong>
+                    <a href="https://developer.mozilla.org/en-US/profiles/hirosan">hirosan</a>,
+                    <time datetime="2018-01-18T00:21:04.066969-08:00">Jan 18, 2018, 12:21:04 AM</time>
+                  </div>
+                
+              </div>
+            </div>
+
+            
+              <!-- quick links and zone subnav strip -->
+              <div id="wiki-left" class="column-strip wiki-column">
+
+                
+                  <!-- crumbs -->
+                  
+  
+    <nav class="crumbs" role="navigation">
+      <ol typeof="BreadcrumbList" vocab="https://schema.org/" aria-label="breadcrumbs">
+        
+          <li property="itemListElement" typeof="ListItem" class="crumb">
+            <a href="https://developer.mozilla.org/en-US/docs/Learn" property="item" typeof="WebPage">
+              <span property="name">Learn web development</span>
+            </a>
+            <meta property="position" content="1">
+          </li>
+        
+          <li property="itemListElement" typeof="ListItem" class="crumb">
+            <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side" property="item" typeof="WebPage">
+              <span property="name">Server-side website programming</span>
+            </a>
+            <meta property="position" content="2">
+          </li>
+        
+          <li property="itemListElement" typeof="ListItem" class="crumb">
+            <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django" property="item" typeof="WebPage">
+              <span property="name">Django Web Framework (Python)</span>
+            </a>
+            <meta property="position" content="3">
+          </li>
+        
+        <li property="itemListElement" typeof="ListItem" class="crumb">
+          <span property="name">Django Tutorial Part 9: Working with forms</span>
+        </li>
+      </ol>
+    </nav>
+  
+                
+
+                
+
+                
+                  <!-- quick links -->
+                  
+  <div class="quick-links" id="quick-links">
+    <div class="quick-links-head">Related Topics</div>
+    
+
+<ol>
+  <li data-default-state="closed"><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web"><strong>Complete beginners start here!</strong></a></li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Getting started with the Web</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web">Getting started with the Web overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/Installing_basic_software">Installing basic software</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/What_will_your_website_look_like">What will your website look like?</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/Dealing_with_files">Dealing with files</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics">HTML basics</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics">CSS basics</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics">JavaScript basics</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/Publishing_your_website">Publishing your website</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works">How the Web works</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed"><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML"><strong>HTML — Structuring the Web</strong></a></li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Introduction to HTML</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML">Introduction to HTML overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started">Getting started with HTML</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML">What's in the head? Metadata in HTML</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/HTML_text_fundamentals">HTML text fundamentals</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks">Creating hyperlinks</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Advanced_text_formatting">Advanced text formatting</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Document_and_website_structure">Document and website structure</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Debugging_HTML">Debugging HTML</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Marking_up_a_letter">Assessment: Marking up a letter</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Structuring_a_page_of_content">Assessment: Structuring a page of content</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Multimedia and embedding</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding">Multimedia and embedding overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML">Images in HTML</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Video_and_audio_content">Video and audio content</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Other_embedding_technologies">From object to iframe — other embedding technologies</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Adding_vector_graphics_to_the_Web">Adding vector graphics to the Web</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images">Responsive images</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Mozilla_splash_page">Assessment: Mozilla splash page</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>HTML tables</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables">HTML tables overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics">HTML table basics</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced">HTML Table advanced features and accessibility</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Structuring_planet_data">Assessment: Structuring planet data</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>HTML forms</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms">HTML forms overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form">Your first HTML form</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/How_to_structure_an_HTML_form">How to structure an HTML form</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/The_native_form_widgets">The native form widgets</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_and_retrieving_form_data">Sending form data</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation">Form validation</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/How_to_build_custom_form_widgets">How to build custom form widgets</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_forms_through_JavaScript">Sending forms through JavaScript</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/HTML_forms_in_legacy_browsers">HTML forms in legacy browsers</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Styling_HTML_forms">Styling HTML forms</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Advanced_styling_for_HTML_forms">Advanced styling for HTML forms</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Property_compatibility_table_for_form_widgets">Property compatibility table for form widgets</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed"><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS"><strong>CSS — Styling the Web</strong></a></li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Introduction to CSS</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS">Introduction to CSS overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works">How CSS works</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Syntax">CSS syntax</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors">Selectors introduction</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Simple_selectors">Simple selectors</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Attribute_selectors">Attribute selectors</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Pseudo-classes_and_pseudo-elements">Pseudo-classes and pseudo-elements</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors">Combinators and multiple selectors</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Values_and_units">CSS values and units</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Cascade_and_inheritance">Cascade and inheritance</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Box_model">The box model</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Debugging_CSS">Debugging CSS</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Fundamental_CSS_comprehension">Assessment: Fundamental CSS comprehension</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Styling text</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text">Styling text overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Fundamentals">Fundamental text and font styling</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Styling_lists">Styling lists</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Styling_links">Styling links</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts">Web fonts</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Typesetting_a_homepage">Assessment: Typesetting a community school homepage</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Styling boxes</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes">Styling boxes overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes/Box_model_recap">Box model recap</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes/Backgrounds">Backgrounds</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes/Borders">Borders</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes/Styling_tables">Styling tables</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes/Advanced_box_effects">Advanced box effects</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes/Creating_fancy_letterheaded_paper">Assessment: Creating fancy letterheaded paper</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_boxes/A_cool_looking_box">Assessment: A cool-looking box</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>CSS layout</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout">CSS layout overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Introduction">Introduction</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Floats">Floats</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Positioning">Positioning</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Practical_positioning_examples">Practical positioning examples</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox">Flexbox</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids">Grids</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed"><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript"><strong>JavaScript — Dynamic client-side scripting</strong></a></li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>JavaScript first steps</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps">JavaScript first steps overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_is_JavaScript">What is JavaScript?</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/A_first_splash">A first splash into JavaScript</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_went_wrong">What went wrong? Troubleshooting JavaScript</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Variables">Storing the information you need — Variables</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Math">Basic in JavaScript — Numbers and operators</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Strings">Handling text — Strings in JavaScript</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Useful_string_methods">Useful string methods</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Arrays">Arrays</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Silly_story_generator">Assessment: Silly story generator</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>JavaScript building blocks</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks">JavaScript building blocks overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals">Making decisions in your code — Conditionals</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Looping_code">Looping code</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions">Functions — Reusable blocks of code</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Build_your_own_function">Build your own function</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Return_values">Function return values</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events">Introduction to events</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Image_gallery">Assessment: Image gallery</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Introducing JavaScript objects</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects">Introducing JavaScript objects overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics">Object basics</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS">Object-oriented JavaScript for beginners</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes">Object prototypes</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance">Inheritance in JavaScript</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON">Working with JSON data</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practise">Object building practise</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Adding_bouncing_balls_features">Assessment: Adding features to our bouncing balls demo</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Client-side web APIs</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs">Client-side web APIs</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction">Introduction to web APIs</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents">Manipulating documents</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data">Fetching data from the server</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Third_party_APIs">Third party APIs</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Drawing_graphics">Drawing graphics</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Video_and_audio_APIs">Video and audio APIs</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Client-side_storage">Client-side storage</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed"><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility"><strong>Accessibility — Make the web usable by everyone</strong></a></li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Accessibility guides</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility">Accessibility overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/What_is_accessibility">What is accessibility?</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML">HTML: A good basis for accessibility</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/CSS_and_JavaScript">CSS and JavaScript accessibility best practices</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics">WAI-ARIA basics</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Multimedia">Accessible multimedia</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Mobile">Mobile accessibility</a></li>
+    </ol>
+    </li><li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Accessibility assessment</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Accessibility_troubleshooting">Assessment: Accessibility troubleshooting</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed"><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing"><strong>Tools and testing</strong></a></li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Cross browser testing</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing">Cross browser testing overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Introduction">Introduction to cross browser testing</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Testing_strategies">Strategies for carrying out testing</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/HTML_and_CSS">Handling common HTML and CSS problems</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/JavaScript">Handling common JavaScript problems</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Accessibility">Handling common accessibility problems</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Feature_detection">Implementing feature detection</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Automated_testing">Introduction to automated testing</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Your_own_automation_environment">Setting up your own test automation environment</a></li>
+    </ol>
+  </li>
+  <li data-default-state="open"><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side"><strong>Server-side website programming</strong></a></li>
+
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>First steps</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps">First steps overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Introduction">Introduction to the server-side</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Client-Server_overview">Client-Server overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Web_frameworks">Server-side web frameworks</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Website_security">Website security</a></li>
+    </ol>
+  </li>
+  <li data-default-state="open" class="toggleable current" data-closed=""><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-down"></i>Django web framework (Python)</a>
+    <ol class="toggle-container" style="display: block;" aria-expanded="true">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django">Django web framework (Python) overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Introduction">Introduction</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment">Setting up a development environment</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website">Tutorial: The Local Library website</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/skeleton_website">Tutorial Part 2: Creating a skeleton website</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models">Tutorial Part 3: Using models</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Admin_site">Tutorial Part 4: Django admin site</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page">Tutorial Part 5: Creating our home page</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views">Tutorial Part 6: Generic list and detail views</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Sessions">Tutorial Part 7: Sessions framework</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication">Tutorial Part 8: User authentication and permissions</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms">Tutorial Part 9: Working with forms</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing">Tutorial Part 10: Testing a Django web application</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment">Tutorial Part 11: Deploying Django to production</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/web_application_security">Web application security</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/django_assessment_blog">Assessment: DIY mini blog</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Express Web Framework (node.js/JavaScript)</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs">Express Web Framework (Node.js/JavaScript) overview</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction">Express/Node introduction</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/development_environment">Setting up a Node (Express) development environment</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Tutorial_local_library_website">Express tutorial: The Local Library website</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website">Express Tutorial Part 2: Creating a skeleton website</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose">Express Tutorial Part 3: Using a database (with Mongoose)</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes">Express Tutorial Part 4: Routes and controllers</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data">Express Tutorial Part 5: Displaying library data</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/forms">Express Tutorial Part 6: Working with forms</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/deployment">Express Tutorial Part 7: Deploying to production</a></li>
+    </ol>
+  </li>
+  <li><a href="#"><strong>Further resources</strong></a></li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Other_learning_material" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Advanced learning material</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/WebGL">WebGL: Graphics processing</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Common questions</a>
+    <ol class="toggle-container" style="display: none;">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto">HTML questions</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Howto">CSS questions</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Howto">JavaScript questions</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions#How_the_Web_works">How the Web works</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions#Tools_and_setup">Tools and setup</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions#Design_and_accessibility">Design and accessibility</a></li>
+    </ol>
+  </li>
+  <li data-default-state="closed"><a href="https://developer.mozilla.org/en-US/docs/Learn/How_to_contribute">How to contribute</a></li>
+</ol>
+
+
+  </div>
+                
+
+                <!-- approvals -->
+                
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div> <!-- ends "main-content" -->
+
+    
+      <div class="newsletter-box">
+        <div class="newsletter">
+    <form id="newsletterForm" class="newsletter-form nodisable" name="newsletter-form" action="https://www.mozilla.org/en-US/newsletter/" method="post">
+        <div class="newsletter-head">
+            <h2 class="newsletter-teaser">Learn the best of web development</h2>
+            <p class="newsletter-description">Get the latest and greatest from MDN delivered straight to your inbox.</p>
+            
+        </div>
+
+        <div class="newsletter-fields">
+            <input id="fmt" name="fmt" value="H" type="hidden">
+            <input id="newsletterNewslettersInput" name="newsletters" value="app-dev" type="hidden">
+            <div id="newsletterErrors" class="newsletter-errors"></div>
+
+            <div id="newsletterEmail" class="form-group newsletter-group-email">
+                <label for="newsletterEmailInput" class="form-label offscreen">E-mail</label>
+                <input id="newsletterEmailInput" name="email" class="form-input newsletter-input-email" required="" placeholder="you@example.com" size="30" type="email">
+            </div>
+
+            <div id="newsletterPrivacy" class="form-group form-group-agree newsletter-group-privacy hidden">
+                <input id="newsletterPrivacyInput" name="privacy" required="" type="checkbox">
+                <label for="newsletterPrivacyInput">
+                I'm okay with Mozilla handling my info as explained in this <a href="https://www.mozilla.org/privacy/">Privacy Policy</a>.
+                </label>
+            </div>
+            <div id="newsletterSubmit" class="newsletter-group-submit">
+                <button id="newsletter-submit" type="submit" class="button neutral newsletter-submit">
+                    Sign up now<svg class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg" width="23" height="28" viewBox="0 0 23 28" aria-hidden="true">
+    <path d="M23 15a2.01 2.01 0 0 1-.578 1.422L12.25 26.594c-.375.359-.891.578-1.422.578s-1.031-.219-1.406-.578L8.25 25.422c-.375-.375-.594-.891-.594-1.422s.219-1.047.594-1.422L12.828 18h-11C.703 18 0 17.062 0 16v-2c0-1.062.703-2 1.828-2h11L8.25 7.406a1.96 1.96 0 0 1 0-2.812l1.172-1.172c.375-.375.875-.594 1.406-.594s1.047.219 1.422.594l10.172 10.172c.375.359.578.875.578 1.406z"></path>
+</svg>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div id="newsletterThanks" class="newsletter-thanks hidden">
+        <h2>Thanks! Please check your inbox to confirm your subscription.</h2>
+        <p>If you haven’t previously confirmed a subscription to a 
+Mozilla-related newsletter you may have to do so. Please check your 
+inbox or your spam filter for an email from us.
+        </p>
+    </div>
+    <button id="newsletterHide" type="button" class="only-icon newsletter-hide">
+        <span>Hide Newsletter Sign-up</span>
+        <svg class="icon icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 22 28" aria-hidden="true">
+    <path d="M20.281 20.656c0 .391-.156.781-.438 1.062l-2.125 2.125c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438L11 19.249l-4.594 4.594c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438l-2.125-2.125c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062L6.751 15l-4.594-4.594c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062l2.125-2.125c.281-.281.672-.438 1.062-.438s.781.156 1.062.438L11 10.751l4.594-4.594c.281-.281.672-.438 1.062-.438s.781.156 1.062.438l2.125 2.125c.281.281.438.672.438 1.062s-.156.781-.438 1.062L15.249 15l4.594 4.594c.281.281.438.672.438 1.062z"></path>
+</svg>
+    </button>
+</div>
+      </div>
+    
+
+  <menu type="context" id="edit-history-menu">
+    <menuitem data-action="/en-US/docs/Learn/Server-side/Django/Forms$edit" label="Edit page"></menuitem>
+    <menuitem data-action="/en-US/docs/Learn/Server-side/Django/Forms$history" label="View page history"></menuitem>
+  </menu>
+
+      </div>
+  </main>
+  <!-- Footer -->
+    <footer id="nav-footer" class="nav-footer">
+      <div class="center">
+          <a href="https://developer.mozilla.org/en-US/" class="nav-footer-logo">MDN Web Docs</a>
+<div class="footer-group footer-group-mdn">
+  <h2 class="footer-title">MDN</h2>
+  <ul class="footer-list">
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web">Web Technologies</a></li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Learn">Learn Web Development</a></li>
+    <li><a href="https://developer.mozilla.org/docs/MDN/About">About MDN</a></li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Feedback">Feedback</a></li>
+    <li class="footer-social">
+        <a href="https://twitter.com/mozdevnet">
+            <!-- Twitter -->
+            <svg class="icon icon-twitter" xmlns="http://www.w3.org/2000/svg" width="26" height="28" viewBox="0 0 26 28">
+    <title>Twitter</title>
+    <path d="M25.312 6.375a10.85 10.85 0 0 1-2.531 2.609c.016.219.016.438.016.656 0 6.672-5.078 14.359-14.359 14.359-2.859 0-5.516-.828-7.75-2.266.406.047.797.063 1.219.063 2.359 0 4.531-.797 6.266-2.156a5.056 5.056 0 0 1-4.719-3.5c.313.047.625.078.953.078.453 0 .906-.063 1.328-.172a5.048 5.048 0 0 1-4.047-4.953v-.063a5.093 5.093 0 0 0 2.281.641 5.044 5.044 0 0 1-2.25-4.203c0-.938.25-1.797.688-2.547a14.344 14.344 0 0 0 10.406 5.281 5.708 5.708 0 0 1-.125-1.156 5.045 5.045 0 0 1 5.047-5.047 5.03 5.03 0 0 1 3.687 1.594 9.943 9.943 0 0 0 3.203-1.219 5.032 5.032 0 0 1-2.219 2.781c1.016-.109 2-.391 2.906-.781z"></path>
+</svg>
+        </a>
+    </li>
+    <li class="footer-social">
+        <a href="https://github.com/mdn/">
+            <!-- GitHub -->
+            <svg class="icon icon-github" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28">
+    <title>Github</title>
+    <path d="M12 2c6.625 0 12 5.375 12 12 0 5.297-3.437 9.797-8.203 11.391-.609.109-.828-.266-.828-.578 0-.391.016-1.687.016-3.297 0-1.125-.375-1.844-.812-2.219 2.672-.297 5.484-1.313 5.484-5.922 0-1.313-.469-2.375-1.234-3.219.125-.313.531-1.531-.125-3.187-1-.313-3.297 1.234-3.297 1.234a11.28 11.28 0 0 0-6 0S6.704 6.656 5.704 6.969c-.656 1.656-.25 2.875-.125 3.187-.766.844-1.234 1.906-1.234 3.219 0 4.594 2.797 5.625 5.469 5.922-.344.313-.656.844-.766 1.609-.688.313-2.438.844-3.484-1-.656-1.141-1.844-1.234-1.844-1.234-1.172-.016-.078.734-.078.734.781.359 1.328 1.75 1.328 1.75.703 2.141 4.047 1.422 4.047 1.422 0 1 .016 1.937.016 2.234 0 .313-.219.688-.828.578C3.439 23.796.002 19.296.002 13.999c0-6.625 5.375-12 12-12zM4.547 19.234c.031-.063-.016-.141-.109-.187-.094-.031-.172-.016-.203.031-.031.063.016.141.109.187.078.047.172.031.203-.031zm.484.532c.063-.047.047-.156-.031-.25-.078-.078-.187-.109-.25-.047-.063.047-.047.156.031.25.078.078.187.109.25.047zm.469.703c.078-.063.078-.187 0-.297-.063-.109-.187-.156-.266-.094-.078.047-.078.172 0 .281s.203.156.266.109zm.656.656c.063-.063.031-.203-.063-.297-.109-.109-.25-.125-.313-.047-.078.063-.047.203.063.297.109.109.25.125.313.047zm.891.391c.031-.094-.063-.203-.203-.25-.125-.031-.266.016-.297.109s.063.203.203.234c.125.047.266 0 .297-.094zm.984.078c0-.109-.125-.187-.266-.172-.141 0-.25.078-.25.172 0 .109.109.187.266.172.141 0 .25-.078.25-.172zm.906-.156c-.016-.094-.141-.156-.281-.141-.141.031-.234.125-.219.234.016.094.141.156.281.125s.234-.125.219-.219z"></path>
+</svg>
+        </a>
+    </li>
+  </ul>
+</div>
+
+          <a href="https://mozilla.org/" class="nav-footer-mozilla">Mozilla</a>
+<div class="footer-group footer-group-mozilla">
+  <h2 class="footer-title">Mozilla</h2>
+  <ul class="footer-list">
+    <li><a href="https://www.mozilla.org/about/">About</a></li>
+    <li><a href="https://www.mozilla.org/contact/">Contact Us</a></li>
+    <li><a href="https://www.mozilla.org/firefox/?utm_source=developer.mozilla.org&amp;utm_campaign=footer&amp;utm_medium=referral">Firefox</a></li>
+    <li class="footer-social">
+        <a href="https://twitter.com/mozilla">
+            <!-- Twitter -->
+            <svg class="icon icon-twitter" xmlns="http://www.w3.org/2000/svg" width="26" height="28" viewBox="0 0 26 28">
+    <title>Twitter</title>
+    <path d="M25.312 6.375a10.85 10.85 0 0 1-2.531 2.609c.016.219.016.438.016.656 0 6.672-5.078 14.359-14.359 14.359-2.859 0-5.516-.828-7.75-2.266.406.047.797.063 1.219.063 2.359 0 4.531-.797 6.266-2.156a5.056 5.056 0 0 1-4.719-3.5c.313.047.625.078.953.078.453 0 .906-.063 1.328-.172a5.048 5.048 0 0 1-4.047-4.953v-.063a5.093 5.093 0 0 0 2.281.641 5.044 5.044 0 0 1-2.25-4.203c0-.938.25-1.797.688-2.547a14.344 14.344 0 0 0 10.406 5.281 5.708 5.708 0 0 1-.125-1.156 5.045 5.045 0 0 1 5.047-5.047 5.03 5.03 0 0 1 3.687 1.594 9.943 9.943 0 0 0 3.203-1.219 5.032 5.032 0 0 1-2.219 2.781c1.016-.109 2-.391 2.906-.781z"></path>
+</svg>
+        </a>
+    </li>
+    <li class="footer-social">
+        <a href="https://www.facebook.com/mozilla">
+            <!-- Facebook -->
+            <svg class="icon icon-facebook" xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28">
+    <title>Facebook</title>
+    <path d="M14.984.187v4.125h-2.453c-1.922 0-2.281.922-2.281 2.25v2.953h4.578l-.609 4.625H10.25v11.859H5.469V14.14H1.485V9.515h3.984V6.109C5.469 2.156 7.891 0 11.422 0c1.687 0 3.141.125 3.563.187z"></path>
+</svg>
+        </a>
+    </li>
+    <li class="footer-social">
+        <a href="https://www.instagram.com/mozillagram/">
+            <!-- Instagram -->
+            <svg class="icon icon-instagram" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28">
+    <title>Instagram</title>
+    <path d="M16 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zm2.156 0c0 3.406-2.75 6.156-6.156 6.156S5.844 17.406 5.844 14 8.594 7.844 12 7.844s6.156 2.75 6.156 6.156zm1.688-6.406c0 .797-.641 1.437-1.437 1.437S16.97 8.39 16.97 7.594s.641-1.437 1.437-1.437 1.437.641 1.437 1.437zM12 4.156c-1.75 0-5.5-.141-7.078.484-.547.219-.953.484-1.375.906s-.688.828-.906 1.375c-.625 1.578-.484 5.328-.484 7.078s-.141 5.5.484 7.078c.219.547.484.953.906 1.375s.828.688 1.375.906c1.578.625 5.328.484 7.078.484s5.5.141 7.078-.484c.547-.219.953-.484 1.375-.906s.688-.828.906-1.375c.625-1.578.484-5.328.484-7.078s.141-5.5-.484-7.078c-.219-.547-.484-.953-.906-1.375s-.828-.688-1.375-.906C17.5 4.015 13.75 4.156 12 4.156zM24 14c0 1.656.016 3.297-.078 4.953-.094 1.922-.531 3.625-1.937 5.031s-3.109 1.844-5.031 1.937c-1.656.094-3.297.078-4.953.078s-3.297.016-4.953-.078c-1.922-.094-3.625-.531-5.031-1.937S.173 20.875.08 18.953C-.014 17.297.002 15.656.002 14s-.016-3.297.078-4.953c.094-1.922.531-3.625 1.937-5.031s3.109-1.844 5.031-1.937c1.656-.094 3.297-.078 4.953-.078s3.297-.016 4.953.078c1.922.094 3.625.531 5.031 1.937s1.844 3.109 1.937 5.031C24.016 10.703 24 12.344 24 14z"></path>
+</svg>
+        </a>
+    </li>
+  </ul>
+</div>
+
+          
+  
+    <form class="languages go" method="get" action="/en-US/docs/Web">
+      <label for="language">Other languages:</label>
+      <select id="language" class="wiki-l10n" name="next" dir="ltr">
+        <option title="English (US)" data-locale="en-US" value="/en-US/docs/Learn/Server-side/Django/Forms" selected="selected">
+          English (US) (en-US)
+        </option>
+        
+          <option title="Spanish" data-locale="en-US" value="/es/docs/Learn/Server-side/Django/Forms">
+            Español (es)
+          </option>
+          <option title="French" data-locale="en-US" value="/fr/docs/Learn/Server-side/Django/Forms">
+            Français (fr)
+          </option>
+          <option title="Indonesian" data-locale="en-US" value="/id/docs/Learn/Server-side/Django/Forms">
+            Bahasa Indonesia (id)
+          </option>
+          <option title="Korean" data-locale="en-US" value="/ko/docs/Learn/Server-side/Django/Forms">
+            한국어 (ko)
+          </option>
+          <option title="Russian" data-locale="en-US" value="/ru/docs/Learn/Server-side/Django/Forms">
+            Русский (ru)
+          </option>
+          <option title="Chinese (Simplified)" data-locale="en-US" value="/zh-CN/docs/learn/Server-side/Django/Forms">
+            中文 (简体) (zh-CN)
+          </option>
+      </select>
+      <noscript><button type="submit">Go</button></noscript>
+    </form>
+  
+
+
+          
+            <ul class="footer-tos">
+              <li><a href="https://www.mozilla.org/about/legal/terms/mozilla">Terms</a></li>
+              <li><a href="https://www.mozilla.org/privacy/websites/">Privacy</a></li>
+              <li><a href="https://www.mozilla.org/privacy/websites/#cookies">Cookies</a></li>
+            </ul>
+
+            <div id="license" class="contentinfo">
+              <p>© 2005-2018 Mozilla and individual contributors.</p> <p>Content is available under <a href="https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses">these licenses</a>.</p>
+            </div>
+          
+      </div>
+    </footer> 
+
+  <!-- site js -->
+  
+    
+    <!--[if lte IE 8]><script type="text/javascript" src="https://developer.mozilla.org/static/build/js/selectivizr.091e18cf669b.js" charset="utf-8"></script><![endif]-->
+
+    
+    <script src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/javascript.js"></script>
+    <script type="text/javascript" src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/main.js" charset="utf-8"></script>
+    <script>
+    if (window.mdn && mdn.analytics) mdn.analytics.trackOutboundLinks();
+</script>
+    
+
+  
+
+    <script async="" type="text/javascript" src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/wiki.js" charset="utf-8"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+    <script async="" type="text/javascript" src="Django%20Tutorial%20Part%209:%20Working%20with%20forms%20-%20Learn%20web%20development%20|%20MDN_files/newsletter.js" charset="utf-8"></script>
+  
+
+
+
+</body></html>

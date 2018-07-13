@@ -1,0 +1,19 @@
+{% extends "catalog/base_index.html" %}
+
+{% block content %}
+    <h3>Author List</h3>
+
+    {% for author in author_list %}
+        {% if forloop.first %}
+            <div class="collection">
+        {% endif %}
+        <li class="collection-item"><a href="{{author.get_absolute_url}}">{{author.last_name}}, {{author.first_name}}</a> ({{author.date_of_birth}} - {{author.date_of_death}})</li>
+        {% if forloop.last %}
+            </div>
+        {% endif %}
+    {% empty %}
+        <h4>No Books!</h4>
+        <div class="divider"> </div>
+        <p>This is very sad.  What is a library without books?</p>
+    {% endfor %}
+{% endblock %}
