@@ -1,0 +1,23 @@
+{% extends "catalog/base_index.html" %}
+
+{% block more_style %}
+
+{% endblock %}
+{% block content %}
+    <h2> Borrowed Books</h2>
+
+    {% for bookinst  in bookinstance_list  %}
+        {% if forloop.first %}
+            <ul class="">
+        {% endif %}
+            <li class ="my-2  {% if bookinst.is_overdue %}overdue{% endif %}">
+                <a href="{{bookinst.book.get_absolute_url}}">{{bookinst.book.title}}</a> <span class='right {% if bookinst.is_overdue %} overdue {% endif %}'>Due Back:  {{bookinst.due_date}}</span>
+            </li>
+            <div class="divider"></div>
+        {% if forloop.last %}
+            </ul>
+        {% endif %}
+    {% empty %}
+        <h4>You have no borrowed books.</h4>
+    {% endfor %}
+{% endblock %}

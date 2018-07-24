@@ -29,6 +29,14 @@ class BookAdmin(admin.ModelAdmin):
 class BookInstanceAdmin(admin.ModelAdmin):
   list_display = ('book', 'status', 'due_date', 'language')
   excluded_fields = None
+  fieldsets = (
+    (None, {
+      'fields': ('book', 'imprint', 'id')
+    }),
+    ('Availability', {
+      'fields': ('status', 'due_date', 'borrower')
+    }),
+  )
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):

@@ -1,0 +1,11 @@
+/*
+scss/_highlights.scss
+---------------------------------------------------------------
+A file for defining style rules pertaining to text colors, background-color and other means of highlighting portions of our pages.
+*/
+
+// Calling attention to books that are overdue
+.overdue {
+    color: #FF0000;
+    font-weight: bold;
+}

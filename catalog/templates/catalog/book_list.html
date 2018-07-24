@@ -7,7 +7,7 @@
         {% if forloop.first %}
             <div class="collection">
         {% endif %}
-        <li class="collection-item"><a href="{{book.get_absolute_url}}">{{book.title}}</a> ({{book.display_author}})</li>
+        <li class="collection-item"><a href="{{book.get_absolute_url}}">{{book.title}}</a> ({{book.display_author}})  -  {{book.copies_available}} available</li>
         {% if forloop.last %}
             </div>
         {% endif %}

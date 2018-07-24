@@ -18,5 +18,9 @@ urlpatterns = [
   path('language/', views.LangListView.as_view(), name='languages'),
   path('language/<int:pk>/<str:language>' ,views.LangDetailView.as_view(), name='language-detail'),
   path('genre/', views.GenreListView.as_view(), name='genre-list'),
-  path('genre/<int:pk>/<str:genre>', views.GenreDetailView.as_view(), name='genre-detail')
+  path('genre/<int:pk>/<str:genre>', views.GenreDetailView.as_view(), name='genre-detail'),
+  path('mybooks/', views.LoannedBooksByUserListView.as_view(), name='my-borrowed-books'),
+  path('all-books/', views.AllBorrowedBooksListView.as_view(), name='all-books'),
+  path('check-in/<uuid:pk>/', views.BorrowedBookDetailView.as_view(), name='check-in'),
+  path('check-out/<uuid:pk>/', views.CheckoutBookInstance.as_view(), name='check-out'),
 ]

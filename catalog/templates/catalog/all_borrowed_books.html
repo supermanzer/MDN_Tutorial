@@ -1,0 +1,30 @@
+{% extends "catalog/base_index.html" %}
+{% block more_style %}
+
+{% endblock %}
+
+{% block content %}
+<h3>All Borrowed Books by Library Patron</h3>
+<hr>
+{% for user in user_list %}
+    <h5 class="mt-2">{{user.first_name}} {{user.last_name}}:</h5>
+    {% for bookinst in user.borrowed_books.all  %}
+        <div class="row">
+            <div class="col s4 align-left">
+                <strong>{{bookinst.book.title}}</strong>
+            </div>
+            <div class="col s8 align-right">
+                <span class="{% if bookinst.is_overdue %}overdue{% endif %}">Due Date: {{bookinst.due_date}}
+                    <form class="right" action="{% url 'catalog:check-in' bookinst.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn-floating btn-small waves-effect waves-light gd-brightblue" name="button"> <i class="small material-icons">check</i> </button>
+                    </form>
+                </span>
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+{% empty %}
+    <h4>No one has checked out any books!  This means your library is not really fulfilling it's function.</h4>
+{% endfor %}
+{% endblock %}

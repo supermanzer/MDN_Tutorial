@@ -20,8 +20,14 @@
                     <li class="collection-item">
                         <span>Status: </span>
                         <span class="title {% if inst.status == 'a' %}green-text darken-1 {% elif inst.status == 'm' %}red-text darken-1 {% else %} text-orange {% endif %}"> {{inst.get_status_display}}</span>
-                        {% if copy.status != 'a' %} <p><strong> Due Date: </strong> {{inst.due_date}}</p> {% endif %}
+                        {% if inst.status != 'a' %} <p><strong> Due Date: </strong> {{inst.due_date}}</p> {% endif %}
                         <p><strong>Imprint: </strong>{{inst.imprint}} </p>
+                        {% if inst.status == 'a' %}
+                        <form class="" action="{% url 'catalog:check-out' inst.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-block waves-effect waves-dark gd-brightorange">Check Out</button>
+                        </form>
+                        {% endif %}
                         <small class="text-grey lighten-1">Copy ID: {{inst.id}}</small>
                     </li>
                     {% if not forloop.last %}

@@ -3,20 +3,63 @@
 {% block more_style %}
     <style media="screen">
         .card {
-            background-color: #ababab;
+            background-color: rgba(#f0f5f4,.53);
         }
-        .container {
-            height: 100%;
+        html,
+        body,
+        .fullpage {
+            height:100%;
+        }
+        body {
+            background-color: #aaaaaa;
         }
     </style>
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row center-align">
-        <div class="card ">
-            <div class="card-content">
-                    <h1 class=''>Hi!</h1>
+<div class="fullpage">
+    <div class="container fullpage">
+        <div class="valign-wrapper fullpage">
+        <div class="row center-align">
+                <div class="card " style="width: 100%;">
+                    <div class="card-content">
+                            {% if form.errors %}
+                            <p class="red-text text-darken-2"><strong>Your username and password did not match.  Please try again.</strong></p>
+                            {% endif %}
+
+                            {% if next %}
+                                {% if user.is_authenticated %}
+                                <h4 class="blue-text text-darken-3">Access Denied</h4>
+                                <p>Your account does not have access to this page.  If you think this is incorrect please contact your site administrator.</p>
+                                {% else %}
+                                <p>Please login to access this page.</p>
+                                {% endif %}
+                            {% endif %}
+
+                            <h4 class="card-title">Login To Local Library</h4>
+                            <hr class="blue darken-4">
+                            <form class="form" action="{% url 'login' %}" method="post">
+                                {% csrf_token %}
+                                <div class="input-field">
+                                  {{form.username}}
+                                  <label for="{{form.username.id_for_label}}">{{form.username.verbose_name}}</label>
+                                  <small class="text-muted">{{form.username.help_text}}</small>
+                              </div>
+                                  <div class="input-field">
+                                    {{form.password}}
+                                    <label for="{{form.password.id_for_label}}">{{form.password.verbose_name}}</label>
+                                    <small class="text-muted">{{form.password.help_text}}</small>
+                                </div>
+                                <div class="card-action">
+                                    <button class="btn waves-effect waves-light gd-tealblue" type="submit" >Login</button>
+                                    <input type="hidden" name="next" value="{{next}}">
+                                </div>
+                            </form>
+                            <br><br>
+                            {# Auumes you set up the password_reset view #}
+                            <p><a href="{% url 'password_reset' %}" class="btn waves-effect waves-light  lgd-aquadark">Lost password?</a> </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

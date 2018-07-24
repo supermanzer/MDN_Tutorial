@@ -8,3 +8,9 @@ This file defines the imports of our various component SASS files.
 
 // Importing our gradient class rules
 @import 'gradients';
+
+// Importing our highlighting rules
+@import 'highlights';
+
+// Importing some spacing helper rules
+@import 'spacing';

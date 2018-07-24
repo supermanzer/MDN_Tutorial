@@ -1,0 +1,25 @@
+{% extends "catalog/base.html" %}
+
+{% block more_style %}
+<style media="screen">
+html,
+body,
+.fullpage {
+    height: 100%
+}
+</style>
+
+{% endblock %}
+
+{% block body %}
+<div class="container fullpage">
+    <div class="valign-wrapper fullpage">
+        <div class="row center-alignr">
+            <h4 class="blue-text text-darken-1">Logged Out!</h4>
+            <hr>
+            <p>You have successfully logged out.</p>
+            <a class="btn waves-effect waves-light  gd-tealblue" href="{% url 'login' %}">Go To Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

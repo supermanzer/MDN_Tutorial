@@ -45,11 +45,16 @@ class Book(models.Model):
 
     class Meta:
         ordering = ['title', ]
+
     def __str__(self):
        """
        String representing a book object
        """
        return self.title
+
+    @property
+    def copies_available(self):
+      return self.bookinstance_set.filter(status='a').count()
 
     def get_absolute_url(self):
        """
@@ -61,11 +66,7 @@ class Book(models.Model):
        """
        Overriding default save behavior to ensure slug generation
        """
-       if not self.slug:
-         # TODO (ryan@gensci.org): Import slugify function and use it on the title.
-         # Custom alternative:
-         if not self.slug:
-             self.slug = '-'.join(self.title.lower().split(' '))
+       self.slug = '-'.join(self.title.lower().split(' '))
 
        super(Book, self).save()
 
@@ -85,6 +86,7 @@ class Book(models.Model):
 
 
 import uuid # Required for uique book instance
+from datetime import date
 class BookInstance(models.Model):
     """
     Model representing a specific physical (or digital) copy of a book.
@@ -98,6 +100,7 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200, blank=True, null=True, help_text='The publisher\'s trade name.')
     due_date = models.DateField(null=True, blank=True, db_index=True, help_text='The date this book is due back (if checked out).')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, related_name='books')
+    borrower = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='borrowed_books')
 
     LOAN_STATUS = (
       ('m', 'Maintenance'),
@@ -105,11 +108,20 @@ class BookInstance(models.Model):
       ('a', 'Available'),
       ('r', 'Reserved'),
     )
-
     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, null=True, default='m',help_text='Book availability')
+
+
+    @property
+    def is_overdue(self):
+      if self.due_date and date.today() >self.due_date:
+        return True
+      return False
 
     class Meta:
       ordering = ['due_date', ]
+      permissions = (
+        ('can_mark_returned', 'Mark books as returned'),
+      )
 
     def __str__(self):
        """
